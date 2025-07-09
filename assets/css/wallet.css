@@ -1,0 +1,329 @@
+/* Wallet specific styles for KetchupLovers theme */
+
+/* Hide wallet transfer form */
+#wps_wallet_transfer_form {
+    display: none !important;
+}
+
+/* Hide wallet withdrawal form */
+#wps_wallet_withdrawal_form {
+    display: none !important;
+}
+
+/* Additional wallet form hiding */
+.wps_wallet_transfer_form,
+.wps_wallet_withdrawal_form {
+    display: none !important;
+}
+
+/* Hide wallet transfer and withdrawal sections */
+.wallet-transfer-section,
+.wallet-withdrawal-section {
+    display: none !important;
+}
+
+/* Hide wallet transfer and withdrawal content */
+.wps_wallet_transfer_content,
+.wps_wallet_withdrawal_content {
+    display: none !important;
+}
+
+/* Hide wallet transfer and withdrawal options */
+.wallet-tabs .tabs li a[href*="wallet-transfer"],
+.wallet-tabs .tabs li a[href*="wallet-withdrawal"] {
+    display: none !important;
+}
+
+/* Hide wallet transfer and withdrawal forms */
+#wps_wallet_transfer_form,
+#wps_wallet_withdrawal_form {
+    display: none !important;
+}
+
+/* Hide wallet tabs containing restricted options */
+.wallet-tabs ul.tabs li:has(a[href*="wallet-transfer"]),
+.wallet-tabs ul.tabs li:has(a[href*="wallet-withdrawal"]) {
+    display: none !important;
+}
+
+/* Alternative selectors for wallet icons */
+.wps_wallet_transfer_tab,
+.wps_wallet_withdrawal_tab {
+    display: none !important;
+}
+
+/* Hide entire list items with restricted wallet options */
+.wallet-tabs .tabs li:has(a[href*="wallet-transfer"]),
+.wallet-tabs .tabs li:has(a[href*="wallet-withdrawal"]) {
+    display: none !important;
+}
+
+/* Additional wallet hiding - more comprehensive approach */
+.wallet-tabs .tabs li:has(a[href*="transfer"]),
+.wallet-tabs .tabs li:has(a[href*="withdrawal"]) {
+    display: none !important;
+}
+
+/* Hide any element containing wallet transfer or withdrawal text */
+.wallet-tabs .tabs li:contains("Transferencia"),
+.wallet-tabs .tabs li:contains("retirada"),
+.wallet-tabs .tabs li:contains("transfer"),
+.wallet-tabs .tabs li:contains("withdrawal") {
+    display: none !important;
+}
+
+/* Hide wallet forms and content areas */
+.wps_wallet_transfer_form,
+.wps_wallet_withdrawal_form,
+.wallet-transfer-content,
+.wallet-withdrawal-content {
+    display: none !important;
+}
+
+/* General theme styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+/* WooCommerce account page improvements */
+.woocommerce-account .woocommerce {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Error message styling */
+.woocommerce-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+/* Success message styling */
+.woocommerce-message {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+/* Wallet tabs styling improvements */
+.wallet-tabs {
+    margin-bottom: 30px;
+}
+
+.wallet-tabs .tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.wallet-tabs .tabs li {
+    margin: 0;
+}
+
+.wallet-tabs .tabs li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #495057;
+    transition: all 0.3s ease;
+}
+
+.wallet-tabs .tabs li a:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.wallet-tabs .tabs li a svg {
+    width: 24px;
+    height: 24px;
+}
+
+.wallet-tabs .tabs li a h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .wallet-tabs .tabs {
+        flex-direction: column;
+    }
+    
+    .wallet-tabs .tabs li a {
+        justify-content: center;
+    }
+}
+
+/* Debug styles - remove after testing */
+.wallet-tabs .tabs li {
+    border: 1px solid red;
+}
+
+.wallet-tabs .tabs li a {
+    border: 1px solid blue;
+}
+
+/* ========================================
+   CSS MOVED FROM custom_wallet_misc.php
+   ======================================== */
+
+/* Hide wallet transfer tab */
+.wallet-tabs .tabs li a[href*="wallet-transfer"] {
+    display: none !important;
+}
+
+/* Hide wallet withdrawal tab */
+.wallet-tabs .tabs li a[href*="wallet-withdrawal"] {
+    display: none !important;
+}
+
+/* Hide wallet transfer and withdrawal forms by ID */
+.span#wps_wallet_transfer_form {
+    display: none !important;
+}
+
+.span#wps_wallet_withdrawal_form {
+    display: none !important;
+}
+
+/* Alternative selectors in case the above don't work */
+.wps_wallet_transfer_tab {
+    display: none !important;
+}
+
+.wps_wallet_withdrawal_tab {
+    display: none !important;
+}
+
+/* Hide entire list items containing these links */
+.wallet-tabs .tabs li:has(a[href*="wallet-transfer"]),
+.wallet-tabs .tabs li:has(a[href*="wallet-withdrawal"]) {
+    display: none !important;
+}
+
+/* Additional comprehensive wallet hiding */
+.wallet-tabs ul.tabs li:has(a[href*="wallet-transfer"]),
+.wallet-tabs ul.tabs li:has(a[href*="wallet-withdrawal"]) {
+    display: none !important;
+}
+
+/* Alternative method using attribute selectors */
+.wallet-tabs ul.tabs li a[href*="wallet-transfer"],
+.wallet-tabs ul.tabs li a[href*="wallet-withdrawal"] {
+    display: none !important;
+}
+
+/* Hide parent list items */
+.wallet-tabs ul.tabs li:has(a[href*="wallet-transfer"]),
+.wallet-tabs ul.tabs li:has(a[href*="wallet-withdrawal"]) {
+    display: none !important;
+}
+
+/* ========================================
+   MY ACCOUNT MENU CUSTOMIZATIONS
+   ======================================== */
+
+/* Hide downloads menu item from My Account navigation */
+.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--downloads,
+.woocommerce-MyAccount-navigation ul li a[href*="downloads"] {
+    display: none !important;
+}
+
+/* Alternative selectors for downloads hiding */
+.woocommerce-MyAccount-navigation-link--downloads,
+.woocommerce-MyAccount-navigation ul li:has(a[href*="downloads"]) {
+    display: none !important;
+}
+
+/* Change wallet text to "Puntos" using CSS content replacement */
+.woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"]::before {
+    content: "Puntos";
+}
+
+/* Hide original wallet text */
+.woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"] span,
+.woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"] {
+    font-size: 0;
+}
+
+.woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"]::before {
+    font-size: 16px;
+    content: "Puntos";
+}
+
+/* Additional wallet text replacement methods */
+.woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"] {
+    position: relative;
+}
+
+.woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"]::after {
+    content: "Puntos";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: inherit;
+    background: inherit;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+/* Hide downloads with more specific selectors */
+.woocommerce-MyAccount-navigation ul li:has(a[href*="downloads"]),
+.woocommerce-MyAccount-navigation ul li a[href*="downloads"],
+.woocommerce-MyAccount-navigation-link--downloads {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+        /* Hide downloads menu item */
+        .woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--downloads,
+        .woocommerce-MyAccount-navigation ul li a[href*="downloads"] {
+            display: none !important;
+        }
+        
+        /* Alternative selectors for downloads hiding */
+        .woocommerce-MyAccount-navigation-link--downloads,
+        .woocommerce-MyAccount-navigation ul li:has(a[href*="downloads"]) {
+            display: none !important;
+        }
+        
+        /* Change wallet text to "Puntos" using CSS content replacement */
+        .woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"]::before {
+            content: "Puntos";
+        }
+        
+        /* Hide original wallet text */
+        .woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"] span,
+        .woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"] {
+            font-size: 0;
+        }
+        
+        .woocommerce-MyAccount-navigation ul li a[href*="wps-wallet"]::before {
+            font-size: 16px;
+            content: "Puntos";
+        }

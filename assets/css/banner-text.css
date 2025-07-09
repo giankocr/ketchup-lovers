@@ -1,0 +1,27 @@
+/* Banner Text Styles */
+/* Estilos para el banner de texto horizontal */
+.horizontal-text {
+    white-space: nowrap;
+    display: inline-block;
+    overflow: visible;
+    word-wrap: normal;
+    word-break: keep-all;
+    white-space: nowrap;
+    padding: 10px 0; /* Espaciado vertical */
+  }
+  
+/* Contenedor del banner */
+.scroll-section {
+  overflow: hidden; /* Oculta el texto que sale del contenedor */
+  white-space: nowrap; /* Asegura que no haya saltos de línea */
+  position: relative; /* Para posicionamiento absoluto de elementos hijos */
+}
+
+/* Asegurar que el texto clonado también mantenga el formato */
+.horizontal-text + .horizontal-text {
+  white-space: nowrap;
+  display: inline-block;
+  overflow: visible;
+  word-wrap: normal;
+  word-break: keep-all;
+}

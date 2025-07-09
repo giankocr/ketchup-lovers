@@ -1,0 +1,7 @@
+/* KetchupLovers Theme Styles */
+/* Main stylesheet for the KetchupLovers theme */
+
+/* Import wallet specific styles */
+@import 'wallet.css';
+@import 'tomato-menu.css';
+@import 'banner-text.css';

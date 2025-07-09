@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../plugins/spoter-elementor"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "ketchup-lovers"
+	}
+}
