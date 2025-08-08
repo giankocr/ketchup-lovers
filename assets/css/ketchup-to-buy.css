@@ -1,0 +1,22 @@
+.pto-to-buy-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.pto-needed{
+    position: absolute;
+    bottom: 15%;
+    font-family: "Dorgan", Sans-serif;
+    color: #8C0C0C;
+}
+
+.ketchup-image-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

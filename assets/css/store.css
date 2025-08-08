@@ -1,0 +1,28 @@
+.welcome-menu-container.text-center-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+span.welcome-menu.welcome-text {
+    font-size: 1rem;
+    font-family:"TangoSans", Sans-serif !important;
+    line-height: 1;
+    font-weight: 600;
+}
+
+span.welcome-menu.points-available-text {
+    font-size: 1.5rem;
+    font-family:"TangoSans", Sans-serif !important;
+    line-height: 1;
+}
+span.welcome-menu.points-available {
+    font-size: 3rem;
+    line-height: 1.4;
+    font-family: Dorgan, Sans-serif !important;
+    color: #000;
+}
+span.welcome-menu.points-available .woocommerce-Price-currencySymbol {
+    display: none;
+}

@@ -1,0 +1,403 @@
+/* Custom WordPress Admin Login Page Styles for Ketchup Lovers */
+
+/* Import custom fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dorgan:wght@300;400;500;600;700&family=TangoSans:wght@300;400;500;600;700&display=swap');
+
+/* Reset and base styles */
+body.login {
+    background: linear-gradient(135deg,#4a0707 0%, #FF0000 40%, #8C0C0C 90%, #4a0707 100%);
+    font-family: 'Dorgan', 'TangoSans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background pattern similar to the site design */
+body.login::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Main login container - clean design */
+#login {
+    background: #FFF;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 60px 50px;
+    width: 100%;
+    max-width: 480px;
+    backdrop-filter: blur(10px);
+    border: none;
+    position: relative;
+    z-index: 1;
+}
+
+/* Logo styling */
+.login h1 a {
+    background-image: url('../images/Logo_ketchuoLovers.webp') !important;
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    width: 250px !important;
+    height: 100px !important;
+    margin: 0 auto 40px !important;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Form styling */
+.login form {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+}
+
+/* Input fields - clean design with TangoSans font */
+.login form .input,
+.login input[type="text"],
+.login input[type="password"] {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #BABABA;
+    border-radius: 0;
+    padding: 18px 10px;
+    font-size: 16px;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #000;
+}
+
+.login form .input:focus,
+.login input[type="text"]:focus,
+.login input[type="password"]:focus {
+    padding: 0 5px;
+    border-bottom-color: #FF0000;
+    box-shadow: none;
+    outline: none;
+    background: rgba(255, 0, 0, 0.02);
+}
+
+/* Input labels */
+.login form label {
+    color: #8C0C0C;
+    font-size: 12px;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Submit button - clean design with new colors */
+.login .button.button-primary {
+    background: linear-gradient(135deg, #FF0000 0%, #FF0000 100%);
+    border: none;
+    border-radius: 30px;
+    padding: 20px 30px;
+    font-size: 16px;
+    font-family: 'Dorgan', sans-serif;
+    font-weight: 700;
+    color: #FFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+.login .button.button-primary:hover {
+    background: linear-gradient(135deg, #8C0C0C 0%, #FF0000 100%);
+    box-shadow: none;
+}
+.login .button.button-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.5s;
+}
+
+.login .button.button-primary:hover::before {
+    left: 100%;
+}
+
+.login .button.button-primary:hover {
+    background: linear-gradient(135deg, #8C0C0C 0%, #8C0C0C 100%);
+    transform: translateY(-3px);
+}
+
+/* Remember me checkbox */
+.login .forgetmenot {
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+}
+
+.login .forgetmenot label {
+    color: #8C0C0C;
+    font-size: 14px;
+    font-family: 'TangoSans', sans-serif;
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.login .forgetmenot input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #FF0000;
+    cursor: pointer;
+}
+
+/* Links styling */
+.login #nav,
+.login #backtoblog {
+    text-align: center;
+    margin: 25px 0 0 0;
+    padding: 0;
+}
+
+.login #nav a,
+.login #backtoblog a {
+    color: #FF0000;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Dorgan', sans-serif;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login #nav a:hover,
+.login #backtoblog a:hover {
+    color: #8C0C0C;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* Error messages */
+.login .message,
+.login #login_error {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 10px;
+    color: #8C0C0C;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'TangoSans', sans-serif;
+}
+
+.login #login_error {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: rgba(255, 0, 0, 0.3);
+    color: #8C0C0C;
+}
+
+/* Success messages */
+.login .message {
+    background: rgba(255, 0, 0, 0.05);
+    border-color: rgba(255, 0, 0, 0.1);
+    color: #8C0C0C;
+}
+
+/* Custom welcome message */
+.login-welcome-message {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #000;
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 600;
+}
+
+.login-welcome-message h2 {
+    color: #FF0000;
+    font-size: xx-large;
+    margin-bottom: 12px;
+    font-family: 'Dorgan', sans-serif;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.login-welcome-message p {
+    color: #8C0C0C;
+    font-size: 16px;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 400;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    #login {
+        margin: 20px;
+        padding: 40px 25px;
+        border-radius: 20px;
+        margin-bottom: 120px;
+    }
+    
+    .login h1 a {
+        width: 200px !important;
+        height: 80px !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .login-welcome-message h2 {
+        font-size: xx-large;
+        font-family: 'Dorgan', sans-serif;
+    }
+    
+    .login-welcome-message p {
+        font-size: 14px;
+        font-family: 'TangoSans', sans-serif;
+    }
+    
+    .login .button.button-primary {
+        padding: 16px 25px;
+        font-size: 15px;
+    }
+    
+    /* Adjust footer elements for mobile */
+    .login #backtoblog,
+    .login #nav {
+        position: fixed;
+        bottom: 10px;
+        font-size: 10px;
+    }
+    
+    .login #backtoblog {
+        left: 10px;
+    }
+    
+    .login #nav {
+        right: 10px;
+    }
+    
+    .custom-login-footer {
+        bottom: 10px !important;
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+    }
+}
+
+/* Animation for form elements */
+.login form {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fix positioning issues with language selector and other elements */
+
+/* Hide problematic elements completely */
+.login #language-switcher,
+.login .language-switcher,
+.login .language-switcher-locales,
+.login .language-switcher-locales select,
+.login .language-switcher-locales input[type="submit"],
+.login .language-switcher-locales .button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Fix footer positioning - move to bottom corners */
+.login #backtoblog {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    z-index: 100;
+}
+
+.login #backtoblog a {
+    color: #FFF;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+.login #backtoblog a:hover {
+    color: #BABABA;
+}
+
+/* Fix navigation links positioning */
+.login #nav {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    z-index: 100;
+}
+
+.login #nav a {
+    color: #FFF;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+.login #nav a:hover {
+    color: #BABABA;
+}
+
+/* Ensure main login container doesn't overlap with footer elements */
+#login {
+    margin-bottom: 100px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Custom footer positioning */
+.custom-login-footer {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 100 !important;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    color: #FFF;
+} 

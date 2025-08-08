@@ -5,3 +5,19 @@
 @import 'wallet.css';
 @import 'tomato-menu.css';
 @import 'banner-text.css';
+@import 'cart.css';
+@import 'checkout.css';
+@import 'cart-page.css';
+@import 'cart-popup.css';
+@import 'login.css';
+@import 'registro.css';
+@import 'store.css';
+@import 'account.css';
+@import 'ketchup-to-buy.css';
+
+@media (max-width: 768px) {
+    .two-columns {
+        flex-direction: column;
+    }
+}
+

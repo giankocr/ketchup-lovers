@@ -28,5 +28,4 @@ function kerns_lovers_add_puntos_currency_symbol($currency_symbol, $currency) {
 }
 
 // Hook to add the currency symbol
-add_filter('woocommerce_currency_symbol', 'kerns_lovers_add_puntos_currency_symbol', 10, 2);
-?> 
+add_filter('woocommerce_currency_symbol', 'kerns_lovers_add_puntos_currency_symbol', 10, 2); 

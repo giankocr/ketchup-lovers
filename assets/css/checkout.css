@@ -1,0 +1,409 @@
+.ketchup-checkout .woocommerce-form-coupon-toggle {
+    display: none;
+}
+/* Common Colors */
+:root {
+    --primary-color: #ff0000;
+    --primary-color-light: #00000030;
+    --background-color: #f8f8f8;
+    --text-color: #000000;
+}
+/* 1. Convierte el contenedor de los campos en un contenedor flex. */
+.woocommerce-billing-fields__field-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los otros campos pasen a la siguiente línea */
+    gap: 2%;       /* Crea un espacio entre los campos */
+  }
+  
+  /* * Asegura que los campos de nombre y apellido compartan el espacio.
+   * El 49% permite que haya un 2% de espacio entre ellos.
+   */
+  #billing_first_name_field,
+  #billing_last_name_field {
+    flex: 1 1 49%;
+    width: 49%;
+  }
+  
+  /* * Hace que los campos que deben ocupar todo el ancho
+   * lo hagan correctamente.
+   */
+  .form-row-wide {
+    flex-basis: 100%;
+  }
+/* 2. Asigna un nuevo orden visual a los campos. */
+p#billing_first_name_field,p#billing_last_name_field {
+    order: 10 !important;
+}
+
+p#billing_email_field {
+    order: 30 !important;
+}
+p#billing_phone_field {
+    order: 40 !important;
+}
+p#billing_address_1_field {
+    order: 70 !important;
+}
+p#billing_address_2_field {
+    order: 80 !important;
+}
+p#billing_city_field {
+    order: 60 !important;
+}
+p#billing_state_field {
+    order: 50 !important;
+}
+#billing_city_field,
+#billing_state_field {
+  flex: 1 1 49%;
+  width: 49%;
+}
+/*******GLOBAL STRUCTURAL LAYOUT*******/
+
+.woocommerce {
+    display: flex;
+    flex-direction: column;
+}
+
+/* WooCommerce Layout Structure */
+@media (min-width: 980px) {
+    /* Billing Details Side */
+    .woocommerce-checkout .woocommerce .col2-set,
+    .woocommerce-checkout .woocommerce-page .col2-set {
+        float: left;
+        width: 55%;
+    }
+    /* Order Review Side */
+    .woocommerce-checkout #order_review_heading,
+    .woocommerce-checkout .woocommerce #order_review,
+    .woocommerce-checkout .woocommerce-page #order_review {
+        float: left;
+        width: 43%;
+        margin-left: 2%;
+    }
+}
+
+@media (max-width: 979px) {
+    /* Billing Details Margin */
+    .woocommerce-checkout .woocommerce .col2-set,
+    .woocommerce-checkout .woocommerce-page .col2-set {
+        margin-bottom: 2em;
+    }
+}
+
+/*******LEFT SIDE DESIGN*******/
+
+/* Form Container Styles */
+
+
+.woocommerce .col2-set .col-1,
+.woocommerce-page .col2-set .col-1,
+.woocommerce .col2-set .col-2,
+.woocommerce-page .col2-set .col-2 {
+    float: left;
+    width: 100%;
+}
+
+/* Form Field Title Styles */
+.woocommerce-checkout label,
+.woocommerce-checkout input,
+.woocommerce-checkout button,
+.woocommerce-checkout select,
+.woocommerce-checkout textarea {
+    font-size: 12px;
+    line-height: 1.7;
+    text-transform: uppercase !important;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.5em;
+}
+
+/* Form Field Styles */
+.woocommerce-checkout input.text,
+.woocommerce-checkout input.title,
+.woocommerce-checkout input[type=email],
+.woocommerce-checkout input[type=password],
+.woocommerce-checkout input[type=tel],
+.woocommerce-checkout input[type=text],
+.woocommerce-checkout select,
+.woocommerce-checkout textarea {
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    background-color: white;
+    height: 50px !important;
+}
+
+.woocommerce-account form .form-row,
+.woocommerce-checkout form .form-row {
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+/* Form Field Dropdown Styles */
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    height: 50px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    width: 25px;
+}
+
+.woocommerce-account form .payment_methods label,
+.woocommerce-checkout form .payment_methods label {
+    padding-left: 0px;
+}
+
+/* Form Field Focus Color Style */
+.woocommerce-checkout textarea:focus,
+.woocommerce-checkout input[type=text]:focus,
+.woocommerce-checkout input[type=password]:focus,
+.woocommerce-checkout input[type=datetime]:focus,
+.woocommerce-checkout input[type=datetime-local]:focus,
+.woocommerce-checkout input[type=date]:focus,
+.woocommerce-checkout input[type=month]:focus,
+.woocommerce-checkout input[type=time]:focus,
+.woocommerce-checkout input[type=week]:focus,
+.woocommerce-checkout input[type=number]:focus,
+.woocommerce-checkout input[type=email]:focus,
+.woocommerce-checkout input[type=url]:focus,
+.woocommerce-checkout input[type=search]:focus,
+.woocommerce-checkout input[type=tel]:focus,
+.woocommerce-checkout input[type=color]:focus,
+.woocommerce-checkout .uneditable-input:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: none;
+    outline: 0;
+}
+
+.woocommerce-checkout .radio input[type=radio],
+.woocommerce-checkout .checkbox input[type=checkbox] {
+    top: 0px;
+}
+
+/*******RIGHT SIDE DESIGN*******/
+
+/* Order Review Headline Removal */
+h3#order_review_heading {
+    display: none; /*Remove This if You Want The Order Review Heading*/
+}
+
+/* Order Review Container Styles */
+div#order_review,div#customer_details {
+    background: white;
+    padding: 2em;
+    border-radius: 1em;
+    box-shadow: 0 0.5em 1em rgba(219, 219, 219, 0.1);
+    position: relative; /*Remove This if You Don't Want Order Review To Be Sticky*/
+    top: 100px; /*Remove This if You Don't Want Order Review To Be Sticky*/
+}
+/*Order Review Order*/
+@media (min-width: 980px) {
+    div#order_review,div#customer_details {
+        position: sticky; /*Remove This if You Don't Want Order Review To Be Sticky*/
+        top: 100px; /*Remove This if You Don't Want Order Review To Be Sticky*/
+    }
+}
+
+div#order_review {
+    display: flex;
+    flex-direction: column; /*Change this to column-reverse to reverse the order*/
+}
+
+/*Hide Cart Contents and Only Show Total + Shipping*/
+
+.woocommerce-checkout-review-order tbody {
+  display: table-row-group; /*Set to "none" if you'd like to hide */
+}
+
+/* Remove Product and Subtotal Headlines */
+table.shop_table.woocommerce-checkout-review-order-table thead {
+    display: none; /*Remove This if You Want Headlines*/
+}
+
+table.shop_table.woocommerce-checkout-review-order-table {
+    color: var(--text-color);
+    text-transform: Capitalize;
+    font-size: 14px; /*Adjust This To Adjust Order Review Font Size*/
+}
+
+.woocommerce table.shop_table {
+  border: none;
+}
+
+/* Target every other cart item and set background color */
+tr.cart_item:nth-child(odd) {
+    background-color: #f7f8fa !important;
+}
+
+tr.cart_item:nth-child(even) {
+    background-color: white !important;
+}
+
+span.woocommerce-Price-amount.amount {
+    font-weight: bold;
+}
+
+
+strong.product-quantity {
+    background: var(--primary-color-light);
+    padding: 0.1em 0.5em;
+    border-radius: 0.5em;
+    font-size: 12px;
+}
+
+.woocommerce td.product-name .wc-item-meta p,
+.woocommerce td.product-name .wc-item-meta:last-child,
+.woocommerce td.product-name dl.variation p,
+.woocommerce td.product-name dl.variation:last-child {
+    margin-bottom: 0;
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: normal;
+  	color: var(--text-color);
+}
+
+td.product-name {
+    width: 100%;
+    font-weight: bold;
+}
+
+td.product-total {
+    justify-content: flex-start;
+    display: flex;
+}
+
+table th,
+table td {
+    border: none !important;
+}
+
+tr.cart-subtotal {
+    display: none; /*Remove this if you'd like to display the subtotal*/
+}
+
+tr.woocommerce-shipping-totals.shipping {
+    display: flex;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    border-top: 1px solid var(--primary-color-light);
+    border-bottom: 1px solid var(--primary-color-light);
+    flex-direction: column;
+    align-content: stretch;
+    align-items: flex-start;
+}
+
+.woocommerce ul#shipping_method li input {
+    margin: 5px 5px 0 0;
+    vertical-align: top;
+}
+
+/* Order Total Line Item Styles */
+tr.order-total {
+    color: var(--primary-color);
+    background-color: var(--primary-color-light);
+}
+
+#add_payment_method #payment,
+.woocommerce-cart #payment,
+.woocommerce-checkout #payment {
+    background: var(--background-color);
+    border-radius: 5px;
+}
+
+#add_payment_method #payment div.payment_box,
+.woocommerce-cart #payment div.payment_box,
+.woocommerce-checkout #payment div.payment_box {
+    background-color: var(----primary-color);
+    color: black;
+}
+
+#add_payment_method #payment div.payment_box::before,
+.woocommerce-cart #payment div.payment_box::before,
+.woocommerce-checkout #payment div.payment_box::before {
+    display: none;
+}
+
+/* Stripe Form Field Styles */
+.wc-stripe-elements-field,
+.wc-stripe-iban-element-field {
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 15px;
+}
+
+input#wc-stripe-new-payment-method {
+    margin-right: 1em;
+}
+
+fieldset#wc-authnet-cc-form .input-text {
+    height: 2em;
+}
+
+/* Place Order Button Styles */
+#place_order {
+    width: 100%;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 1.5em;
+    background: var(--primary-color); /* Change This to Change Button Color */
+}
+
+#place_order:hover {
+    color: rgba(7, 7, 7, 0.5);
+}
+
+/*******COUPON & ALERT STYLES*******/
+
+.woocommerce-info,
+.woocommerce-message {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: none;
+}
+
+.checkout_coupon p.form-row.form-row-last {
+    float: none;
+}
+
+.checkout_coupon button.button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Coupon Icon */
+.woocommerce-info::before,
+.woocommerce-error::before {
+    display: none;
+}
+
+.woocommerce-error,
+.woocommerce-info,
+.woocommerce-message {
+    padding: 1em;
+}
+/* Error Alert */
+.woocommerce-error {
+    background-color: #ff7e7e;
+    border: none;
+    color: #761f1f;
+}
+
+.woocommerce-error,
+.woocommerce-info,
+.woocommerce-message {
+    text-shadow: none;
+}
+.woocommerce-info,.woocommerce-privacy-policy-text {
+    font-size: 14px;
+    font-family: 'TangoSans', sans-serif;
+    line-height: normal;
+}

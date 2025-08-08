@@ -1,0 +1,187 @@
+/* Contenedor principal: separa los elementos verticalmente */
+:root{
+    --color-primary: #FF0000;
+    --color-secondary: #8C0C0C;
+    --color-white: #fff;
+    --color-gray: #BABABA;
+}
+
+.single_add_to_cart_button {
+    display: none !important;
+  }
+.cantidad-container {
+    display: flex;
+    margin-bottom: 24px;
+    width: 100%;
+    max-width: clamp(100%, 100%, 600px);
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .cantidad-label {
+    font-size: clamp(12px, 1.2em, 1.2em);
+    font-weight: 300;
+    font-family: 'TangoSans', sans-serif;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  /* Caja de cantidad: alineación horizontal de los botones y el número */
+  .cantidad-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 30px;
+    border: 0.2px solid #e1e1e1;
+    padding: 8px 20px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .cantidad-box .cantidad-menos,
+  .cantidad-box .cantidad-mas {
+    color: var(--color-primary);
+    background-color: #fff !important;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .cantidad-box .cantidad-menos:hover,
+  .cantidad-box .cantidad-mas:hover {
+    background: #b30000;
+  }
+  
+ .cantidad-box .cantidad-numero {
+    font-size: clamp(12px, 1.5em, 1.5em);
+    font-weight: 300;
+    min-width: 30px;
+    text-align: center;
+  }
+  
+  /* Botón canjear prenda */
+  .canjear-prenda-button {
+    display: block;
+    width: 100%;
+    background: #e60000;
+    color: #fff;
+    border: none;
+    border-radius: 40px;
+    padding: 18px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 16px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+    height: 50px;
+    max-width: clamp(100%, 100%, 600px);
+  }
+  
+  .canjear-prenda-button:hover {
+    background: #b30000;
+  }
+  
+  /* Botón agregar al carrito */
+  .agregar-carrito-button {
+    display: block;
+    width: 100%;
+    background: #8b1818;
+    color: #fff;
+    border: none;
+    border-radius: 40px;
+    padding: 18px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+    margin-bottom: 16px;
+  }
+  
+  .agregar-carrito-button:hover {
+    background: #5a0f0f;
+  }
+
+  .canjear-prenda-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Clase base para todos los botones */
+.boton-estandar {
+  display: block;
+  width: 100%;
+  max-width: clamp(100%, 100%, 600px);
+  height: 50px;
+  background: #e60000; /* color por defecto, se sobrescribe en las variantes */
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  padding: 12px 0 10px 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: background 0.2s;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+/* Solo el color cambia en las variantes */
+.canjear-prenda-button {
+  background: #e60000;
+}
+.canjear-prenda-button:hover {
+  background: #b30000;
+}
+
+.agregar-carrito-button {
+  background: #8b1818;
+}
+.agregar-carrito-button:hover {
+  background: #5a0f0f;
+}
+
+li.variable-item.button-variable-item{
+    border:0.5px solid var(--color-gray) !important;
+    background-color: var(--color-white) !important;
+    color: var(--color-gray) !important;
+}
+
+li.variable-item.button-variable-item.selected{
+    border:5px solid var(--color-primary) !important;
+    background-color: var(--color-primary) !important;
+    color: var(--color-white) !important;
+    box-shadow: 0px 0px 0px 2px var(--color-primary) !important;
+
+}
+span.variable-item-span.variable-item-span-button{
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 300;
+    font-size: 1.2em;
+    color: var(--color-gray) !important;
+}
+li.variable-item.button-variable-item.selected span.variable-item-span.variable-item-span-button{
+    color: var(--color-white) !important;
+}
+td.value.woo-variation-items-wrapper a.reset_variations {
+    display: none !important;
+}
+.single_variation_wrap .quantity{
+   display: none !important; 
+}

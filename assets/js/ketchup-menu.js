@@ -36,7 +36,7 @@ class ketchupMenu {
       // Crear la animación infinita de izquierda a derecha
       gsap.to(bannerText, {
         x: -textWidth, // Mover hacia la izquierda
-        duration: 20, // Duración en segundos
+        duration: 120, // Duración en segundos
         ease: "linear", // Movimiento constante
         repeat: -1, // Repetir infinitamente
         onRepeat: function () {
@@ -50,26 +50,36 @@ class ketchupMenu {
   ANIMACIÓN 2: Tomate que rebota suavemente
   ======================================== */
   tomateCayendoAnimation() {
-    const tomato = document.getElementById('tomatecayendo');
+    // Selecciona el tomate y su "path"
+    const tomato = document.getElementById("tomatecayendo");
+    const tomatoPath = document.getElementsByClassName("tomate-icon-path");
+    const menukernstomate = document.getElementById("menukernstomate");
+    
     if (tomato) {
-     // Get the viewport height to make the tomato fall off-screen
-     const viewportHeight = window.innerHeight;
- 
-     // GSAP animation
-     gsap.to(tomato, {
-         y: viewportHeight + 200, // Move it down past the bottom of the screen
-         duration: 20,             // Animation duration in seconds
-         ease: "power1.in",       // Easing function for a more natural fall (starts slow, speeds up)
-         repeat: -1,              // Repeat infinitely
-         delay: 1.5,              // Delay before the first fall
-         onRepeat: function() {
-             // Reset position to above the viewport on each repeat
-             gsap.set(tomato, { y: -200 });
-         }
-     });
+      // Altura de la ventana para calcular hasta dónde debe caer el tomate
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+
+      // Crea una nueva línea de tiempo de GSAP
+      const tl = gsap.timeline(
+        {
+          delay: -1,
+          duration: 0.1,
+        }
+      );
+      tl.set(menukernstomate,{x:0,y:0,zIndex:100})
+      tl.set(tomatoPath,{visibility:"hidden", opacity:0,delay:-1})
+      tl.from(tomato,{y:-viewportHeight, x:0, scale:25, rotation:0,duration:2,opacity:1, ease:"expo.out"})
+      tl.to(tomato,{y:viewportHeight/10,x:viewportWidth/2, scale:0,opacity:0,duration:0.1, ease:"expo.in"})
+      tl.set(tomato,{display:"none"})
+      tl.set(tomatoPath,{visibility:"visible", opacity:1,ease:"linear.out",delay:-1.8,duration:1,y:0,x:0})
+
+
+    } else {
+      // Si no encuentra los elementos, muestra un error en consola
+      console.error(
+        "No se encontró el elemento tomatecayendo o tomate-icon-path"
+      );
     }
   }
-
-
-
 }

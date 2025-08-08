@@ -41,8 +41,8 @@ kernsLovers/
 ### Control de Acceso del Monedero
 
 El tema incluye funcionalidades para denegar acceso a:
-- Transferencias del monedero (`/my-account/wps-wallet/wallet-transfer/`)
-- Retiros del monedero (`/my-account/wps-wallet/wallet-withdrawal/`)
+- Transferencias del monedero (`/mi-cuenta/wps-wallet/wallet-transfer/`)
+- Retiros del monedero (`/mi-cuenta/wps-wallet/wallet-withdrawal/`)
 
 ### Personalización de Estilos
 

@@ -23,15 +23,15 @@ function deny_wallet_access() {
         
         // Define restricted wallet URLs
         $restricted_urls = array(
-            '/my-account/wps-wallet/wallet-transfer/',
-            '/my-account/wps-wallet/wallet-withdrawal/'
+            '/mi-cuenta/wps-wallet/wallet-transfer/',
+            '/mi-cuenta/wps-wallet/wallet-withdrawal/'
         );
         
         // Check if current URL contains any restricted paths
         foreach ($restricted_urls as $restricted_url) {
             if (strpos($current_url, $restricted_url) !== false) {
                 // Redirect to my-account page with error message
-                wp_redirect(home_url('/my-account/?wallet_access_denied=1'));
+                wp_redirect(home_url('/mi-cuenta/?wallet_access_denied=1'));
                 exit;
             }
         }
@@ -141,13 +141,13 @@ function redirect_wallet_to_transactions() {
         $current_url = $_SERVER['REQUEST_URI'];
         
         // Check if current URL is the main wallet page (not transactions, transfer, or withdrawal)
-        if (strpos($current_url, '/my-account/wps-wallet/') !== false &&
-            strpos($current_url, '/my-account/wps-wallet/wallet-transactions/') === false &&
-            strpos($current_url, '/my-account/wps-wallet/wallet-transfer/') === false &&
-            strpos($current_url, '/my-account/wps-wallet/wallet-withdrawal/') === false) {
+        if (strpos($current_url, '/mi-cuenta/wps-wallet/') !== false &&
+            strpos($current_url, '/mi-cuenta/wps-wallet/wallet-transactions/') === false &&
+            strpos($current_url, '/mi-cuenta/wps-wallet/wallet-transfer/') === false &&
+            strpos($current_url, '/mi-cuenta/wps-wallet/wallet-withdrawal/') === false) {
             
             // Redirect to transactions page
-            wp_redirect(home_url('/my-account/wps-wallet/wallet-transactions/'));
+            wp_redirect(home_url('/mi-cuenta/wps-wallet/wallet-transactions/'));
             exit;
         }
     }
@@ -169,7 +169,7 @@ function modify_wallet_menu_links($items) {
                 strpos($item['url'], 'wallet-transactions') === false) {
                 
                 // Change the URL to point to transactions
-                $items[$key]['url'] = home_url('/my-account/wps-wallet/wallet-transactions/');
+                $items[$key]['url'] = home_url('/mi-cuenta/wps-wallet/wallet-transactions/');
             }
         }
     }
@@ -199,7 +199,7 @@ function redirect_wallet_links_js() {
                     href.indexOf('wallet-transactions') === -1) {
                     
                     // Change the link to point to transactions
-                    link.href = '<?php echo home_url('/my-account/wps-wallet/wallet-transactions/'); ?>';
+                    link.href = '<?php echo home_url('/mi-cuenta/wps-wallet/wallet-transactions/'); ?>';
                 }
             });
         });
@@ -209,83 +209,51 @@ function redirect_wallet_links_js() {
 }
 add_action('wp_footer', 'redirect_wallet_links_js');
 
-/**
- * Change wallet menu item text from "Cartera" to "Puntos"
- * This modifies the display text of the wallet menu item
- */
-function change_wallet_menu_text($items) {
-    if (is_array($items)) {
-        foreach ($items as $key => $item) {
-            // Check if this is a wallet menu item
-            if (isset($item['url']) && strpos($item['url'], 'wps-wallet') !== false) {
-                // Change the text to "Puntos"
-                if (isset($item['text'])) {
-                    $items[$key]['text'] = 'Puntos';
-                }
-                if (isset($item['title'])) {
-                    $items[$key]['title'] = 'Puntos';
-                }
-            }
-        }
-    }
-    return $items;
+function custom_hide_gateway_for_low_total( $available_gateways ) {
+    var_dump($available_gateways);
+    return $available_gateways;
 }
-add_filter('wps_wallet_menu_items', 'change_wallet_menu_text');
+//add_filter( 'woocommerce_available_payment_gateways', 'custom_hide_gateway_for_low_total' );
 
-/**
- * Hide downloads menu item from WooCommerce My Account navigation
- * This removes the downloads option from the main account navigation
- */
-function hide_downloads_menu_item($items) {
-    // Remove downloads from the main WooCommerce account navigation
-    if (isset($items['downloads'])) {
-        unset($items['downloads']);
-    }
-    return $items;
-}
-add_filter('woocommerce_account_menu_items', 'hide_downloads_menu_item');
+function custom_change_wallet_gateway_title( $available_gateways ) {
+    // Comprobar si el gateway del monedero está disponible.
+    if ( isset( $available_gateways['wps_wcb_wallet_payment_gateway'] ) ) {
 
-/**
- * Add JavaScript to change wallet text and hide downloads
- * This provides JavaScript-based modifications for better compatibility
- */
-function add_account_menu_js_modifications() {
-    if (is_account_page()) {
-        ?>
-        <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            // Change wallet text to "Puntos"
-            var walletLinks = document.querySelectorAll('a[href*="wps-wallet"]');
-            walletLinks.forEach(function(link) {
-                // Change the text content
-                if (link.textContent && link.textContent.trim() !== '') {
-                    link.textContent = 'Puntos';
-                }
-                
-                // Also change any child elements
-                var childElements = link.querySelectorAll('span, strong, em');
-                childElements.forEach(function(element) {
-                    element.textContent = 'Puntos';
-                });
-            });
-            
-            // Hide downloads menu items
-            var downloadsLinks = document.querySelectorAll('a[href*="downloads"]');
-            downloadsLinks.forEach(function(link) {
-                var listItem = link.closest('li');
-                if (listItem) {
-                    listItem.style.display = 'none';
-                }
-            });
-            
-            // Alternative method to hide downloads
-            var downloadsMenuItems = document.querySelectorAll('.woocommerce-MyAccount-navigation-link--downloads');
-            downloadsMenuItems.forEach(function(item) {
-                item.style.display = 'none';
-            });
-        });
-        </script>
-        <?php
+        // Acceder a la pasarela de pago del monedero.
+        $gateway = $available_gateways['wps_wcb_wallet_payment_gateway'];
+
+        // Puedes acceder al saldo del usuario si el plugin lo proporciona.
+        // Aquí se usa un ejemplo, la forma exacta de obtener el saldo puede variar.
+        $user_id = get_current_user_id();
+        $user_balance = get_user_meta( $user_id, 'wps_wallet', true );
+        
+        // Define el nuevo texto.
+        // Usa `number_format_i18n` para formatear el número según las configuraciones de WordPress.
+        $new_title = sprintf( 'Canjear con puntos. Tu saldo actual: %s Puntos', number_format_i18n( $user_balance, 0 ) );
+
+        // Asignar el nuevo título a la pasarela de pago.
+        $gateway->title = $new_title;
+
+        // Define el nuevo texto que aparecerá debajo del título.
+        $new_description = sprintf( 'Utiliza tu saldo de %s Puntos para pagar este pedido.', number_format_i18n( $user_balance, 0 ) );
+
+        // Asignamos el nuevo texto a la propiedad 'method_description'.
+        $gateway->method_description = $new_description;
+
+        // Actualizar el array de pasarelas de pago.
+        $available_gateways['wps_wcb_wallet_payment_gateway'] = $gateway;
     }
+    
+    // Devolver las pasarelas de pago modificadas.
+    return $available_gateways;
 }
-add_action('wp_footer', 'add_account_menu_js_modifications');
+add_filter( 'woocommerce_available_payment_gateways', 'custom_change_wallet_gateway_title' );
+
+function cambiar_mensaje_pago_no_disponible( $message ) {
+    // Reemplaza el mensaje predeterminado con tu propio texto.
+    // Puedes usar HTML si lo necesitas para dar formato.
+    $nuevo_mensaje = 'Registra tus compras y gana puntos para canjear en la tienda. <br>Registra tus compras <a href="https://wa.me/50200000000" target="_blank">aquí</a>.';
+    
+    return $nuevo_mensaje;
+}
+add_filter( 'woocommerce_no_available_payment_methods_message', 'cambiar_mensaje_pago_no_disponible' );
