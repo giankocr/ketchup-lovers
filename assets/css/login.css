@@ -1,92 +1,269 @@
-.divisor::before,.divisor::after{
-    color: #fff;
-    border-bottom: 1px solid #fff;
+/* Custom Login Page Styles for Ketchup Lovers */
+
+/* Import custom fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dorgan:wght@300;400;500;600;700&family=TangoSans:wght@300;400;500;600;700&display=swap');
+
+/* Custom styles for login page */
+.login-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg,#4a0707 0%, #FF0000 40%, #8C0C0C 90%, #4a0707 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Dorgan', 'TangoSans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    overflow: hidden;
 }
-/* Estilos generales del contenedor */
-.login-container {
-    background-color: #d32f2f; /* Un tono de rojo similar al de la imagen */
-    padding: 40px 20px;
-    font-family: Arial, sans-serif;
+
+/* Background pattern similar to the site design */
+.login-page-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.login-form-wrapper {
+    background: #FFF;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 60px 50px;
+    width: 100%;
+    max-width: 480px;
+    backdrop-filter: blur(10px);
+    border: none;
+    position: relative;
+    z-index: 1;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-logo {
     text-align: center;
-    max-width: 400px; /* Ajusta el ancho máximo según necesites */
-    margin: 50px auto; /* Centra el contenedor en la página */
-    border-radius: 8px; /* Bordes ligeramente redondeados */
-}
-.login-page{
-    z-index: 1000;
+    margin-bottom: 40px;
 }
 
-/* Texto separador "o introduzca su usuario" */
-.separator-text {
-    color: #ffffff;
+.login-logo img {
+    width: 250px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.login-welcome {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-welcome h1 {
+    color: #FF0000;
+    font-size: 28px;
+    margin-bottom: 12px;
+    font-family: 'Dorgan', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.login-welcome p {
+    color: #8C0C0C;
     font-size: 16px;
-    margin-bottom: 30px;
-    text-transform: lowercase;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 400;
 }
 
-/* Grupo de cada campo del formulario */
+.login-error {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    border-radius: 10px;
+    color: #8C0C0C;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 500;
+}
+
+.custom-login-form {
+    margin-bottom: 30px;
+}
+
 .form-group {
     margin-bottom: 25px;
 }
 
-/* Estilos para los campos de texto (Usuario y Contraseña) */
-.input {
-    width: 100%;
-    background-color: transparent;
-    border: none;
-    border-bottom: 1px solid #ffffff; /* Línea blanca inferior */
-    color: #ffffff;
-    font-size: 18px;
-    padding: 10px 0;
-    box-sizing: border-box;
-}
-
-/* Estilo para el texto del placeholder */
-.input::placeholder {
-    color: #f5c4c4; /* Un color blanco más tenue */
-    opacity: 1; /* Asegura que el color se muestre correctamente en Firefox */
-}
-
-/* Oculta las etiquetas visualmente pero las mantiene para accesibilidad */
-.login-username ,p.login-password label {
-text-align: left;
-}
-.login-page .input:focus{
-    outline: none;
-}
-
-
-/* Estilos para el botón "Iniciar sesión" */
-.button {
-    background-color: #ffffff;
-    color: #d32f2f;
-    border: none;
-    border-radius: 25px; /* Bordes muy redondeados para forma de píldora */
-    padding: 12px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: none; /* Asegura que el texto no esté en mayúsculas */
-    width: auto;
-    min-width: 200px;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: #f1f1f1; /* Un ligero cambio de color al pasar el ratón */
-}
-
-
-
-#GO, #TT, #FB {
-    min-width: 300px !important;
-    text-align: left !important;
-}
-#TT{
-    display: none !important;
-}
-span.gsi-material-button-contents {
-    padding-left: 20px !important;
-    font-family: 'TangoSans', sans-serif !important;
+.form-group label {
+    color: #8C0C0C;
     font-size: 12px;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #BABABA;
+    border-radius: 0;
+    padding: 18px 10px;
+    font-size: 16px;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    color: #000;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+    padding: 0 5px;
+    border-bottom-color: #FF0000;
+    box-shadow: none;
+    outline: none;
+    background: rgba(255, 0, 0, 0.02);
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.remember-me label {
+    color: #8C0C0C;
+    font-size: 14px;
+    font-family: 'TangoSans', sans-serif;
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 10px;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #FF0000;
+    cursor: pointer;
+}
+
+.login-submit #wp-submit{
+    background: linear-gradient(135deg, #FF0000 0%, #FF0000 100%);
+    border: none;
+    border-radius: 30px;
+    padding: 20px 30px;
+    font-size: 16px;
+    font-family: 'Dorgan', sans-serif;
+    font-weight: 700;
+    color: #FFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-submit:hover #wp-submit{
+    background: linear-gradient(135deg, #8C0C0C 0%, #8C0C0C 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+}
+
+.login-submit:active #wp-submit{
+    transform: translateY(-1px);
+}
+
+.login-links {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.login-links a {
+    color: #FF0000;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Dorgan', sans-serif;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin: 10px 0;
+    padding: 8px 0;
+}
+
+.login-links a:hover {
+    color: #8C0C0C;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .login-form-wrapper {
+        margin: 20px;
+        padding: 40px 25px;
+        border-radius: 20px;
+    }
+    
+    .login-logo img {
+        width: 200px;
+    }
+    
+    .login-welcome h1 {
+        font-size: 24px;
+    }
+    
+    .login-welcome p {
+        font-size: 14px;
+    }
+    
+    .login-submit #wp-submit{
+        padding: 16px 25px;
+        font-size: 15px;
+    }
+    
+    .login-links a {
+        font-size: 12px;
+    }
+}
+
+/* Hide header and footer on login page */
+.page-template-page-login .site-header,
+.page-template-page-login .site-footer {
+    display: none;
+}
+
+.page-template-page-login body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure proper body styling */
+.page-template-page-login {
+    background: transparent;
 }

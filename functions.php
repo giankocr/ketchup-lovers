@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('KERN_LOVERS_VERSION', '1.0.0');
+define('KERN_LOVERS_VERSION', '1.5.1');
 define('THEME_URI', get_stylesheet_directory_uri());
 define('THEME_DIR', get_stylesheet_directory());
 define('THEME_NAME', 'Ketchup Lovers');
@@ -18,7 +18,7 @@ define('THEME_NAME', 'Ketchup Lovers');
 include_once THEME_DIR . '/inc/currency_symbol.php';
 include_once THEME_DIR . '/inc/wc_woo_states.php';
 include_once THEME_DIR . '/inc/custom_wallet_misc.php';
-include_once THEME_DIR . '/inc/login-customization.php';
+//include_once THEME_DIR . '/inc/login-customization.php';
 include_once THEME_DIR . '/templates/tomato-menu.php';
 include_once THEME_DIR . '/templates/cart-filters.php';
 include_once THEME_DIR . '/inc/welcome_menu.php';
@@ -43,7 +43,7 @@ function add_styles_css() {
     // Get the file modification time for versioning
     $css_file_path = THEME_DIR . '/assets/css/style.css';
     $css_file_url = THEME_URI . '/assets/css/style.css';
-    $version = file_exists($css_file_path) ? filemtime($css_file_path) : '1.0.0';
+    $version = file_exists($css_file_path) ? filemtime($css_file_path) : KERN_LOVERS_VERSION;
     
     wp_enqueue_style( 'parent', get_template_directory_uri().'/style.css' );
     
@@ -52,7 +52,7 @@ function add_styles_css() {
         'ketchuplovers-styles', 
         $css_file_url,
         array(), // No dependencies
-        $version // Version for cache busting
+        KERN_LOVERS_VERSION // Version for cache busting
     );
     if (!wp_script_is('gsap', 'enqueued')) {
         wp_enqueue_script(
@@ -77,6 +77,13 @@ function add_styles_css() {
 }
 add_action('wp_enqueue_scripts', 'add_styles_css');
 
+// Enqueue custom admin login styles
+function add_admin_login_styles() {
+    wp_enqueue_style('admin-login-styles', THEME_URI . '/assets/css/login-admin.css');
+}
+add_action('login_enqueue_scripts', 'add_admin_login_styles');
+
+// Enqueue custom scripts
 function add_scripts_js_footer() {
     // Prevent duplicate loading by checking if scripts are already enqueued
     if (wp_script_is('ketchuplovers-scripts', 'enqueued')) {
@@ -86,14 +93,14 @@ function add_scripts_js_footer() {
     // Get the file modification time for versioning
     $js_file_path = THEME_DIR . '/assets/js/script.js';
     $js_file_url = THEME_URI . '/assets/js/script.js';
-    $version = file_exists($js_file_path) ? filemtime($js_file_path) : '1.0.0';
+    $version = file_exists($js_file_path) ? filemtime($js_file_path) : KERN_LOVERS_VERSION;
     
     // Load custom scripts with GSAP dependency
     wp_enqueue_script(
         'ketchuplovers-scripts',
         $js_file_url,
         array('gsap', 'gsap-scrolltrigger'), // Depend on GSAP and ScrollTrigger
-        $version,
+        KERN_LOVERS_VERSION,
         true // Load in footer for better performance
     );
 
@@ -101,7 +108,7 @@ function add_scripts_js_footer() {
         'ketchup-menu',
         THEME_URI . '/assets/js/ketchup-menu.js',
         array('gsap', 'gsap-scrolltrigger'),
-        $version,
+        KERN_LOVERS_VERSION,
         true
     );
 }
@@ -225,3 +232,14 @@ function gc_redirigir_al_anadir_al_carrito() {
  * Desactiva el mensaje de "Producto añadido al carrito" de WooCommerce.
  */
 add_filter( 'wc_add_to_cart_message_html', '__return_false' );
+
+/**
+ * Añade un enlace de inicio de sesión o cierre de sesión en el menú principal.
+ */
+add_filter( 'wp_nav_menu_items', 'add_login_logout_link', 10, 2 );
+function add_login_logout_link( $items, $args ) {
+    if ( is_user_logged_in() ) {
+        $items .= '<li><a href="'. wp_logout_url("/home") .'">Cerrar Sesión</a></li>';
+    }
+    return $items;
+}

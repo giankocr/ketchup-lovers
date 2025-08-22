@@ -26,7 +26,7 @@ function mi_shortcode_menu_inferior_tomate() {
     <div class = 'icon-background'>
     <img src = '<?php echo THEME_URI; ?>/assets/images/home_menu.svg' alt = 'Inicio'>
     </div>
-    <span>Inicio</span>
+    <span>Registrate</span>
     </a>
 
     <div class = 'tomate-icon-path'>
@@ -38,7 +38,7 @@ function mi_shortcode_menu_inferior_tomate() {
     <div class = 'center-icon-wrapper'>
     <img src = '<?php echo THEME_URI; ?>/assets/images/WA.svg' id = 'whatsapp_menu' alt = 'Whatsapp'>
     </div>
-    <span class = 'text-menu-center'> Registrar Factura</span>
+    <span class = 'text-menu-center'> Cargar Facturas</span>
     </a>
 
     <!-- Opción 3: Canjear Puntos -->
@@ -47,7 +47,7 @@ function mi_shortcode_menu_inferior_tomate() {
     <div class = 'icon-background'>
     <img src = '<?php echo THEME_URI; ?>/assets/images/KL.svg' alt = 'Canjear mis puntos'>
     </div>
-    <span>Canjear mis puntos</span>
+    <span>Canjea tus puntos</span>
     </a>
     </nav>
     </div>

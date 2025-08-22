@@ -12,6 +12,7 @@ if (!defined('ABSPATH')) {
     exit('Acceso directo prohibido');
 }
 
+
 /**
  * Configuración de la API de Wallet
  */
@@ -108,9 +109,9 @@ class KL_Wallet_API_Config {
      */
     public static function get_rate_limit_config(): array {
         return [
-            'requests_per_minute' => get_option('kl_wallet_rate_limit', 60),
+            'requests_per_minute' => intval(get_option('kl_wallet_rate_limit', 60)),
             'window_seconds' => 60,
-            'enabled' => get_option('kl_wallet_rate_limit_enabled', true)
+            'enabled' => (bool) get_option('kl_wallet_rate_limit_enabled', true)
         ];
     }
     
@@ -121,9 +122,9 @@ class KL_Wallet_API_Config {
      */
     public static function get_logging_config(): array {
         return [
-            'enabled' => get_option('kl_wallet_logging_enabled', true),
-            'file_logging' => get_option('kl_wallet_file_logging', true),
-            'database_logging' => get_option('kl_wallet_db_logging', true),
+            'enabled' => (bool) get_option('kl_wallet_logging_enabled', true),
+            'file_logging' => (bool) get_option('kl_wallet_file_logging', true),
+            'database_logging' => (bool) get_option('kl_wallet_db_logging', true),
             'log_level' => get_option('kl_wallet_log_level', 'info')
         ];
     }
@@ -134,7 +135,7 @@ class KL_Wallet_API_Config {
      * @return bool
      */
     public static function is_api_enabled(): bool {
-        return get_option('kl_wallet_api_enabled', true);
+        return (bool) get_option('kl_wallet_api_enabled', true);
     }
     
     /**
@@ -280,7 +281,7 @@ class KL_Wallet_API_Config {
      * @return bool
      */
     public static function is_ip_restriction_enabled(): bool {
-        return get_option('kl_wallet_ip_restriction_enabled', true);
+        return (bool) get_option('kl_wallet_ip_restriction_enabled', true);
     }
     
     /**
@@ -292,7 +293,7 @@ class KL_Wallet_API_Config {
         return [
             'enabled' => self::is_ip_restriction_enabled(),
             'allowed_ips' => self::get_allowed_ips(),
-            'strict_mode' => get_option('kl_wallet_ip_strict_mode', false)
+            'strict_mode' => (bool) get_option('kl_wallet_ip_strict_mode', false)
         ];
     }
 }
@@ -406,5 +407,5 @@ function kl_wallet_disable_ip_restriction(): bool {
  * @return bool
  */
 function kl_wallet_is_ip_restriction_enabled(): bool {
-    return get_option('kl_wallet_ip_restriction_enabled', true);
+    return (bool) get_option('kl_wallet_ip_restriction_enabled', true);
 } 

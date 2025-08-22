@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación KL Wallet API</title>
+    <!-- Incluir Tailwind CSS desde CDN para un estilizado rápido y responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluir Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Incluir Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables CSS personalizadas */
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #8b5cf6;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-tertiary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        /* Estilos base */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--bg-primary);
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+        }
+
+        /* Encabezados */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--primary-color);
+            position: relative;
+        }
+
+        h1::after {
+            content: '🔐';
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 3rem 0 1.5rem 0;
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::before {
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        h2:nth-child(1)::before { content: '\f54e'; } /* Info icon */
+        h2:nth-child(2)::before { content: '\f023'; } /* Lock icon */
+        h2:nth-child(3)::before { content: '\f0c1'; } /* Link icon */
+        h2:nth-child(4)::before { content: '\f542'; } /* Flow icon */
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin: 2rem 0 1rem 0;
+            padding-left: 1rem;
+            border-left: 4px solid var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Párrafos */
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tarjetas de contenido */
+        .card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        /* Estilos para código */
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #334155;
+            position: relative;
+        }
+
+        pre::before {
+            content: '📄';
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: var(--bg-tertiary);
+            color: var(--primary-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Listas */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        ul li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0.75rem;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        /* Contenedores de diagramas Mermaid */
+        .mermaid-container {
+            background: var(--bg-tertiary);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mermaid-container::before {
+            content: '📊';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+
+        /* Texto importante */
+        strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Badges para métodos HTTP */
+        .http-method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+        }
+
+        .http-method.post {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .http-method.get {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .http-method.put {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .http-method.delete {
+            background: var(--error-color);
+            color: white;
+        }
+
+        /* Secciones */
+        section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card, section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Ocultar pie de página de Mermaid */
+        .mermaid-diagram-footer {
+            display: none;
+        }
+
+        /* Estilos personalizados para diagramas Mermaid */
+        .mermaid svg {
+            background: transparent !important;
+        }
+
+        /* Cambiar color de flechas y líneas a blanco */
+        .mermaid .edgePath path,
+        .mermaid .edgePath marker,
+        .mermaid .arrowheadPath,
+        .mermaid .arrowMarkerPath {
+            stroke: white !important;
+            fill: white !important;
+        }
+
+        /* Cambiar color de los nodos y texto */
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node ellipse,
+        .mermaid .node polygon {
+            stroke: white !important;
+            fill: #1e293b !important;
+        }
+
+        .mermaid .node text {
+            fill: white !important;
+            color: white !important;
+        }
+
+        /* Cambiar color de las líneas de decisión */
+        .mermaid .decision {
+            stroke: white !important;
+            fill: #1e293b !important;
+        }
+
+        /* Cambiar color de las líneas de flujo */
+        .mermaid .flowchart-link {
+            stroke: white !important;
+        }
+
+        /* Estilos para parámetros de API */
+        .api-param {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .api-param strong {
+            color: var(--accent-color);
+        }
+
+        /* Estilos para respuestas de API */
+        .api-response {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .api-response::before {
+            content: '📤 Respuesta:';
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Estilos para el índice de navegación */
+        .index-nav {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .index-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+        }
+
+        .index-nav h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            border: none;
+            padding: 0;
+        }
+
+        .index-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .index-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .index-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .index-item:hover::before {
+            left: 100%;
+        }
+
+        .index-item i {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            transition: color 0.3s ease;
+        }
+
+        .index-item:hover i {
+            color: var(--primary-color);
+        }
+
+        .index-item span {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Responsive para el índice */
+        @media (max-width: 768px) {
+            .index-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .index-item {
+                padding: 0.75rem 1rem;
+            }
+            
+            .index-item span {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Botón flotante para volver al índice */
+        .floating-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.8);
+        }
+
+        .floating-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-xl);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
+        }
+
+        .floating-button:active {
+            transform: scale(0.95);
+        }
+
+        .floating-button.show {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* Efecto de pulso para llamar la atención */
+        .floating-button.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
+        }
+
+        /* Responsive para el botón flotante */
+        @media (max-width: 768px) {
+            .floating-button {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Estilos para el resumen de endpoints */
+        .endpoints-summary {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .endpoints-summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--success-color), var(--primary-color), var(--accent-color));
+        }
+
+        .endpoints-summary h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            border: none;
+            padding: 0;
+        }
+
+        .endpoints-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .endpoint-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .endpoint-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .endpoint-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--success-color);
+            color: var(--text-primary);
+        }
+
+        .endpoint-link:hover::before {
+            left: 100%;
+        }
+
+        .endpoint-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .endpoint-badge.post {
+            background: var(--success-color);
+        }
+
+        .endpoint-badge.get {
+            background: var(--primary-color);
+        }
+
+        .endpoint-badge.put {
+            background: var(--warning-color);
+        }
+
+        .endpoint-badge.delete {
+            background: var(--error-color);
+        }
+
+        .endpoint-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .endpoint-info strong {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .endpoint-info span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .endpoint-link i {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .endpoint-link:hover i {
+            color: var(--success-color);
+            transform: translateX(3px);
+        }
+.btn_float_up{
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+        /* Responsive para el resumen de endpoints */
+        @media (max-width: 768px) {
+            .endpoints-summary {
+                padding: 1.5rem;
+            }
+            
+            .endpoint-link {
+                padding: 1rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+            
+            .endpoint-info {
+                text-align: center;
+            }
+            
+                    .endpoint-info span {
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+    }
+
+    /* Estilos para ejemplos de código con iconos */
+    .code-example h4 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 1.5rem 0 1rem 0;
+        padding: 0.75rem 1rem;
+        background: var(--bg-tertiary);
+        border-radius: 8px;
+        border-left: 4px solid var(--accent-color);
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .code-example h4 i {
+        font-size: 1.2rem;
+        color: var(--accent-color);
+    }
+
+    .code-example pre {
+        margin: 0.5rem 0 1.5rem 0;
+        border-left: 4px solid var(--accent-color);
+    }
+
+    /* Colores específicos para lenguajes */
+    .code-example h4 .fab.fa-js {
+        color: #f7df1e;
+    }
+
+    .code-example h4 .fab.fa-python {
+        color: #3776ab;
+    }
+
+    .code-example h4 .fab.fa-php {
+        color: #777bb4;
+    }
+
+    .code-example h4 .fas.fa-terminal {
+        color: #4a5568;
+    }
+
+    .code-example h4 .fas.fa-tools {
+        color: #ed8936;
+    }
+
+    .code-example h4 .fas.fa-download {
+        color: var(--success-color);
+    }
+    </style>
+    
+    <!-- Incluir la librería Mermaid para renderizar los diagramas -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+    <script>
+        // Inicializar Mermaid.js una vez que el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', (event) => {
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: 'dark',
+                flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                },
+                sequence: {
+                    useMaxWidth: true,
+                    diagramMarginX: 50,
+                    diagramMarginY: 10,
+                    actorMargin: 50,
+                    width: 150,
+                    height: 65,
+                    boxMargin: 10,
+                    boxTextMargin: 5,
+                    noteMargin: 10,
+                    messageMargin: 35,
+                    mirrorActors: true,
+                    bottomMarginAdj: 1,
+                    useMaxWidth: true,
+                    rightAngles: false,
+                    showSequenceNumbers: false
+                }
+            });
+        });
+
+        // Añadir efecto de scroll suave para el índice
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Calcular offset para compensar el header
+                    const offset = 20;
+                    const targetPosition = targetElement.offsetTop - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Añadir efecto visual al elemento objetivo
+                    targetElement.style.transition = 'all 0.3s ease';
+                    targetElement.style.transform = 'scale(1.02)';
+                    targetElement.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
+                    
+                    setTimeout(() => {
+                        targetElement.style.transform = 'scale(1)';
+                        targetElement.style.boxShadow = '';
+                    }, 300);
+                }
+            });
+        });
+
+        // Añadir efecto de resaltado al hacer hover en el índice
+        document.querySelectorAll('.index-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Funcionalidad del botón flotante
+        const backToIndexButton = document.getElementById('back-to-index');
+        const indexNav = document.querySelector('.index-nav');
+        let isScrolling = false;
+
+        // Función para mostrar/ocultar el botón flotante
+        function toggleFloatingButton() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const indexPosition = indexNav.offsetTop;
+            
+            if (scrollTop > indexPosition + 100) {
+                backToIndexButton.classList.add('show');
+            } else {
+                backToIndexButton.classList.remove('show');
+            }
+        }
+
+        // Función para volver al índice con animación
+        function scrollToIndex() {
+            const indexPosition = indexNav.offsetTop - 20;
+            
+            window.scrollTo({
+                top: indexPosition,
+                behavior: 'smooth'
+            });
+
+            // Añadir efecto de pulso al índice
+            indexNav.style.transition = 'all 0.3s ease';
+            indexNav.style.transform = 'scale(1.02)';
+            indexNav.style.boxShadow = '0 15px 35px rgba(0,0,0,0.1)';
+            
+            setTimeout(() => {
+                indexNav.style.transform = 'scale(1)';
+                indexNav.style.boxShadow = '';
+            }, 300);
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                isScrolling = true;
+                requestAnimationFrame(() => {
+                    toggleFloatingButton();
+                    isScrolling = false;
+                });
+            }
+        });
+
+        backToIndexButton.addEventListener('click', scrollToIndex);
+
+        // Mostrar el botón después de un tiempo si el usuario está scrolleando
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (window.pageYOffset > 300) {
+                    backToIndexButton.classList.add('pulse');
+                    setTimeout(() => {
+                        backToIndexButton.classList.remove('pulse');
+                    }, 2000);
+                }
+            }, 1000);
+        });
+
+        // Inicializar el estado del botón
+        toggleFloatingButton();
+    </script>
+</head>
+<body>
+<a href="#menu" class="btn_float_up"><i class="fas fa-arrow-up"></i></a>
+    <!-- Contenedor principal de la documentación -->
+    <div class="container">
+        <h1>KL Wallet API: Documentación para Integradores</h1>
+
+        <!-- Índice de Navegación -->
+        <nav class="index-nav" id="menu">
+            <h3><i class="fas fa-list"></i> Índice de Contenidos</h3>
+            <div class="index-grid">
+                <a href="#descripcion-general" class="index-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>1. Descripción General</span>
+                </a>
+                <a href="#autenticacion-seguridad" class="index-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>2. Autenticación y Seguridad</span>
+                </a>
+                <a href="#endpoints-disponibles" class="index-item">
+                    <i class="fas fa-code"></i>
+                    <span>3. Endpoints Disponibles</span>
+                </a>
+                <a href="#endpoints-resumen" class="index-item">
+                    <i class="fas fa-list-ul"></i>
+                    <span>3.1. Resumen de Endpoints</span>
+                </a>
+                <a href="#update-wallet" class="index-item">
+                    <i class="fas fa-wallet"></i>
+                    <span>3.4. Actualizar Monedero</span>
+                </a>
+                <a href="#ejemplos-requests" class="index-item">
+                    <i class="fas fa-code"></i>
+                    <span>4. Ejemplos de Requests</span>
+                </a>
+                <a href="#diagrama-flujo" class="index-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>5. Diagrama de Flujo de Datos</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Sección de Descripción General -->
+        <section id="descripcion-general">
+            <h2>1. Descripción General</h2>
+            <p>La <strong>KL Wallet API</strong> es un sistema de gestión de billetera digital que se integra con WordPress y WooCommerce. Permite la gestión de usuarios por número de teléfono y la autenticación mediante tokens JWT.</p>
+            
+            <h3><i class="fas fa-cogs"></i> Tecnologías Clave</h3>
+            <ul>
+                <li><strong>Backend</strong>: PHP 8.2+, WordPress 6.0+.</li>
+                <li><strong>Base de Datos</strong>: MySQL/MariaDB.</li>
+                <li><strong>Autenticación</strong>: JSON Web Tokens (JWT).</li>
+                <li><strong>Caché</strong>: WordPress Transients.</li>
+            </ul>
+        </section>
+
+        <!-- Sección de Autenticación y Seguridad -->
+        <section id="autenticacion-seguridad">
+            <h2>2. Autenticación y Seguridad</h2>
+            <p>Todos los endpoints, a excepción de <code>generate-token</code>, requieren autenticación mediante un token JWT. Este token debe ser incluido en el encabezado de la solicitud HTTP.</p>
+
+            <h3><i class="fas fa-key"></i> Proceso de Autenticación</h3>
+            <p>El integrador debe enviar una solicitud <span class="http-method post">POST</span> al endpoint <code>/generate-token</code> para obtener un token JWT. Este token se debe incluir en el encabezado <code>Authorization</code> de todas las solicitudes subsiguientes, utilizando el formato <code>Bearer &lt;token&gt;</code>.</p>
+            
+            <div class="api-param">
+                <strong>Ejemplo de Header:</strong>
+                <pre><code>Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</code></pre>
+            </div>
+
+            <h3><i class="fas fa-project-diagram"></i> Flujo Completo de Autenticación</h3>
+            <p>El siguiente diagrama muestra el flujo detallado para obtener un token y luego usarlo para interactuar con la API.</p>
+            <div class="mermaid-container">
+                <pre class="mermaid">
+sequenceDiagram
+    participant C as Cliente
+    participant A as API
+    participant D as Base de Datos
+    participant L as Logger
+    
+    C->>A: POST /generate-token
+    A->>A: Validar API Key
+    A->>A: Generar JWT
+    A->>L: Log de auditoría en BD
+    A->>C: Devolver token
+                </pre>
+            </div>
+        </section>
+        
+        <!-- Sección de Endpoints Disponibles -->
+        <section id="endpoints-disponibles">
+            <h2>3. Endpoints Disponibles</h2>
+
+            <!-- Resumen de Endpoints -->
+            <div class="endpoints-summary" id="endpoints-resumen">
+                <h3><i class="fas fa-link"></i> Resumen de Endpoints</h3>
+                <div class="endpoints-grid">
+                    <a href="#generate-token" class="endpoint-link">
+                        <div class="endpoint-badge post">POST</div>
+                        <div class="endpoint-info">
+                            <strong>Generate Token</strong>
+                            <span>/wp-json/kl-wallet/v1/generate-token</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <a href="#get-user-by-id" class="endpoint-link">
+                        <div class="endpoint-badge get">GET</div>
+                        <div class="endpoint-info">
+                            <strong>Get User by ID</strong>
+                            <span>/wp-json/kl-wallet/v1/get-user-by-id</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <a href="#user-by-phone" class="endpoint-link">
+                        <div class="endpoint-badge get">GET</div>
+                        <div class="endpoint-info">
+                            <strong>User by Phone</strong>
+                            <span>/wp-json/kl-wallet/v1/user-by-phone</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    <a href="#update-wallet" class="endpoint-link">
+                        <div class="endpoint-badge post">POST</div>
+                        <div class="endpoint-info">
+                            <strong>Update Wallet</strong>
+                            <span>/wp-json/kl-wallet/v1/update-wallet</span>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Endpoint: Generar Token JWT -->
+            <div class="card" id="generate-token">
+                <h3><i class="fas fa-token"></i> 3.1. Generar Token JWT</h3>
+                <p><strong>Endpoint</strong>: <span class="http-method post">POST</span> <code>/wp-json/kl-wallet/v1/generate-token</code></p>
+                <p><strong>Descripción</strong>: Genera un token JWT para la autenticación.</p>
+                
+                <h4><i class="fas fa-list"></i> Parámetros:</h4>
+                <div class="api-param">
+                    <strong>service_name</strong> (string, requerido): Nombre del servicio que solicita el token.
+                </div>
+                <div class="api-param">
+                    <strong>expiration</strong> (integer, opcional): Tiempo de expiración del token en segundos (por defecto: 3600).
+                </div>
+                
+                <div class="api-response">
+                    <strong>Respuesta Exitosa (200):</strong>
+                    <pre><code>{
+  "success": true,
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "expires_in": 3600,
+  "token_type": "Bearer",
+  "service": "mi_servicio"
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Endpoint: Obtener Usuario por ID -->
+            <div class="card" id="get-user-by-id">
+                <h3><i class="fas fa-user"></i> 3.2. Obtener Usuario por ID</h3>
+                <p><strong>Endpoint</strong>: <span class="http-method get">GET</span> <code>/wp-json/kl-wallet/v1/get-user-by-id</code></p>
+                <p><strong>Descripción</strong>: Obtiene la información de un usuario por su ID.</p>
+                
+                <h4><i class="fas fa-list"></i> Parámetros:</h4>
+                <div class="api-param">
+                    <strong>user_id</strong> (integer, requerido): ID del usuario.
+                </div>
+                
+                <div class="api-response">
+                    <strong>Respuesta Exitosa (200):</strong>
+                    <pre><code>{
+  "success": true,
+  "message": "Hola",
+  "phone_number": "1234567890",
+  "user_id": 123
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Endpoint: Obtener Usuario por Teléfono -->
+            <div class="card" id="user-by-phone">
+                <h3><i class="fas fa-phone"></i> 3.3. Obtener Usuario por Teléfono</h3>
+                <p><strong>Endpoint</strong>: <span class="http-method get">GET</span> <code>/wp-json/kl-wallet/v1/user-by-phone</code></p>
+                <p><strong>Descripción</strong>: Obtiene la información de un usuario por su número de teléfono.</p>
+                
+                <h4><i class="fas fa-list"></i> Parámetros:</h4>
+                <div class="api-param">
+                    <strong>phone</strong> (string, requerido): Número de teléfono del usuario.
+                </div>
+                
+                <div class="api-response">
+                    <strong>Respuesta Exitosa (200):</strong>
+                    <pre><code>{
+  "success": true,
+  "message": "Usuario encontrado",
+  "user": {
+    "id": 123,
+    "display_name": "Juan Pérez",
+    "email": "juan@example.com"
+  },
+  "phone_number": "1234567890",
+  "wps_wallet": "150.50"
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Endpoint: Actualizar Monedero del Usuario -->
+            <div class="card" id="update-wallet">
+                <h3><i class="fas fa-wallet"></i> 3.4. Actualizar Monedero del Usuario</h3>
+                <p><strong>Endpoint</strong>: <span class="http-method post">POST</span> <code>/wp-json/kl-wallet/v1/update-wallet</code></p>
+                <p><strong>Descripción</strong>: Actualiza el monedero (crédito/débito) de un usuario específico. Este endpoint actúa como proxy para la API externa de WooCommerce Wallet.</p>
+                
+                <h4><i class="fas fa-list"></i> Parámetros:</h4>
+                <div class="api-param">
+                    <strong>user_id</strong> (integer, requerido): ID del usuario único del usuario.
+                </div>
+                <div class="api-param">
+                    <strong>amount</strong> (number, requerido): Importe de la transacción del monedero (debe ser positivo y máximo 2 decimales).
+                </div>
+                <div class="api-param">
+                    <strong>action</strong> (string, requerido): Tipo de transacción. Valores permitidos: "credit" o "debit".
+                </div>
+                <div class="api-param">
+                    <strong>transaction_detail</strong> (string, requerido): Detalles de la transacción del monedero.
+                </div>
+                <div class="api-param">
+                    <strong>payment_method</strong> (string, opcional): Método de pago usado. Por defecto: "kl_wallet_api".
+                </div>
+                <div class="api-param">
+                    <strong>note</strong> (string, opcional): Nota durante la transferencia del monedero.
+                </div>
+                <div class="api-param">
+                    <strong>order_id</strong> (integer, opcional): ID del pedido si se descuenta la cantidad cuando se usa el monedero como pasarela de pago.
+                </div>
+                
+                <h4><i class="fas fa-code"></i> Ejemplo de Solicitud:</h4>
+                <pre><code>curl -X POST \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 123,
+    "amount": 29.50,
+    "action": "credit",
+    "transaction_detail": "Recarga de saldo desde API",
+    "payment_method": "kl_wallet_api",
+    "note": "Recarga automática del sistema"
+  }' \
+  https://tu-sitio.com/wp-json/kl-wallet/v1/update-wallet</code></pre>
+                
+                <div class="api-response">
+                    <strong>Respuesta Exitosa (200):</strong>
+                    <pre><code>{
+  "success": true,
+  "message": "Monedero actualizado exitosamente",
+  "data": {
+    "response": "success",
+    "balance": "487.41",
+    "transaction_id": 156
+  },
+  "user_id": 123,
+  "amount": 29.50,
+  "action": "credit"
+}</code></pre>
+                </div>
+
+                <h4><i class="fas fa-exclamation-triangle"></i> Posibles Errores:</h4>
+                <div class="api-param" style="border-left-color: var(--error-color);">
+                    <strong>400 - Parámetros Inválidos</strong>: Cuando los parámetros no cumplen con la validación.
+                </div>
+                <div class="api-param" style="border-left-color: var(--error-color);">
+                    <strong>401 - No Autorizado</strong>: Cuando el token JWT es inválido o ha expirado.
+                </div>
+                <div class="api-param" style="border-left-color: var(--error-color);">
+                    <strong>500 - API Externa No Configurada</strong>: Cuando las credenciales de la API externa no están configuradas.
+                </div>
+                <div class="api-param" style="border-left-color: var(--error-color);">
+                    <strong>500 - Error en API Externa</strong>: Cuando la API externa devuelve un error.
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Ejemplos de Requests -->
+        <section id="ejemplos-requests">
+            <h2>4. Ejemplos de Requests</h2>
+            <p>En esta sección encontrarás ejemplos prácticos de cómo hacer requests a todos los endpoints de la API usando diferentes herramientas y lenguajes de programación.</p>
+
+            <!-- Ejemplos para Generate Token -->
+            <div class="card code-example">
+                <h3><i class="fas fa-token"></i> 4.1. Generar Token JWT</h3>
+                
+                <h4><i class="fab fa-js"></i> JavaScript (Fetch)</h4>
+                <pre><code>const generateToken = async () => {
+  const response = await fetch('/wp-json/kl-wallet/v1/generate-token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-API-Key': 'tu_api_key_aqui'
+    },
+    body: JSON.stringify({
+      service_name: 'mi_servicio_web',
+      expiration: 3600
+    })
+  });
+  
+  const data = await response.json();
+  console.log('Token:', data.token);
+};
+
+generateToken();</code></pre>
+
+                <h4><i class="fab fa-python"></i> Python (Requests)</h4>
+                <pre><code>import requests
+import json
+
+def generate_token():
+    url = "https://tu-sitio.com/wp-json/kl-wallet/v1/generate-token"
+    headers = {
+        "Content-Type": "application/json",
+        "X-API-Key": "tu_api_key_aqui"
+    }
+    data = {
+        "service_name": "mi_servicio_python",
+        "expiration": 3600
+    }
+    
+    response = requests.post(url, headers=headers, json=data)
+    result = response.json()
+    
+    if response.status_code == 200:
+        print(f"Token generado: {result['token']}")
+        return result['token']
+    else:
+        print(f"Error: {result}")
+
+token = generate_token()</code></pre>
+
+                <h4><i class="fab fa-php"></i> PHP (cURL)</h4>
+                <pre><code>&lt;?php
+function generateToken($apiKey, $serviceName) {
+    $url = 'https://tu-sitio.com/wp-json/kl-wallet/v1/generate-token';
+    
+    $data = [
+        'service_name' => $serviceName,
+        'expiration' => 3600
+    ];
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'X-API-Key: ' . $apiKey
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+    
+    $result = json_decode($response, true);
+    
+    if (isset($result['token'])) {
+        return $result['token'];
+    }
+    
+    return null;
+}
+
+$token = generateToken('tu_api_key_aqui', 'mi_servicio_php');
+echo "Token: " . $token;
+?&gt;</code></pre>
+
+                <h4><i class="fas fa-terminal"></i> cURL</h4>
+                <pre><code>curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: tu_api_key_aqui" \
+  -d '{
+    "service_name": "mi_servicio_curl",
+    "expiration": 3600
+  }' \
+  https://tu-sitio.com/wp-json/kl-wallet/v1/generate-token</code></pre>
+            </div>
+
+            <!-- Ejemplos para Get User by ID -->
+            <div class="card code-example">
+                <h3><i class="fas fa-user"></i> 4.2. Obtener Usuario por ID</h3>
+                
+                <h4><i class="fab fa-js"></i> JavaScript (Fetch)</h4>
+                <pre><code>const getUserById = async (userId, token) => {
+  const response = await fetch(`/wp-json/kl-wallet/v1/get-user-by-id?user_id=${userId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+  
+  const data = await response.json();
+  console.log('Usuario:', data);
+};
+
+getUserById(123, 'tu_jwt_token_aqui');</code></pre>
+
+                <h4><i class="fab fa-python"></i> Python (Requests)</h4>
+                <pre><code>import requests
+
+def get_user_by_id(user_id, token):
+    url = f"https://tu-sitio.com/wp-json/kl-wallet/v1/get-user-by-id"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    params = {
+        "user_id": user_id
+    }
+    
+    response = requests.get(url, headers=headers, params=params)
+    result = response.json()
+    
+    if response.status_code == 200:
+        print(f"Usuario encontrado: {result}")
+        return result
+    else:
+        print(f"Error: {result}")
+
+user_data = get_user_by_id(123, "tu_jwt_token_aqui")</code></pre>
+
+                <h4><i class="fas fa-terminal"></i> cURL</h4>
+                <pre><code>curl -X GET \
+  -H "Authorization: Bearer tu_jwt_token_aqui" \
+  -H "Content-Type: application/json" \
+  "https://tu-sitio.com/wp-json/kl-wallet/v1/get-user-by-id?user_id=123"</code></pre>
+            </div>
+
+            <!-- Ejemplos para User by Phone -->
+            <div class="card code-example">
+                <h3><i class="fas fa-phone"></i> 4.3. Obtener Usuario por Teléfono</h3>
+                
+                <h4><i class="fab fa-js"></i> JavaScript (Fetch)</h4>
+                <pre><code>const getUserByPhone = async (phone, token) => {
+  const response = await fetch(`/wp-json/kl-wallet/v1/user-by-phone?phone=${phone}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  });
+  
+  const data = await response.json();
+  console.log('Usuario:', data);
+};
+
+getUserByPhone('1234567890', 'tu_jwt_token_aqui');</code></pre>
+
+                <h4><i class="fab fa-python"></i> Python (Requests)</h4>
+                <pre><code>import requests
+
+def get_user_by_phone(phone, token):
+    url = "https://tu-sitio.com/wp-json/kl-wallet/v1/user-by-phone"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    params = {
+        "phone": phone
+    }
+    
+    response = requests.get(url, headers=headers, params=params)
+    result = response.json()
+    
+    if response.status_code == 200:
+        print(f"Usuario encontrado: {result}")
+        return result
+    else:
+        print(f"Error: {result}")
+
+user_data = get_user_by_phone("1234567890", "tu_jwt_token_aqui")</code></pre>
+
+                <h4><i class="fas fa-terminal"></i> cURL</h4>
+                <pre><code>curl -X GET \
+  -H "Authorization: Bearer tu_jwt_token_aqui" \
+  -H "Content-Type: application/json" \
+  "https://tu-sitio.com/wp-json/kl-wallet/v1/user-by-phone?phone=1234567890"</code></pre>
+            </div>
+
+            <!-- Ejemplos para Update Wallet -->
+            <div class="card code-example">
+                <h3><i class="fas fa-wallet"></i> 4.4. Actualizar Monedero del Usuario</h3>
+                
+                <h4><i class="fab fa-js"></i> JavaScript (Fetch)</h4>
+                <pre><code>const updateWallet = async (walletData, token) => {
+  const response = await fetch('/wp-json/kl-wallet/v1/update-wallet', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(walletData)
+  });
+  
+  const data = await response.json();
+  console.log('Resultado:', data);
+};
+
+// Ejemplo de recarga (crédito)
+const creditData = {
+  user_id: 123,
+  amount: 50.00,
+  action: 'credit',
+  transaction_detail: 'Recarga desde aplicación móvil',
+  payment_method: 'mobile_app',
+  note: 'Recarga automática del sistema'
+};
+
+// Ejemplo de descuento (débito)
+const debitData = {
+  user_id: 123,
+  amount: 25.50,
+  action: 'debit',
+  transaction_detail: 'Compra en tienda online',
+  payment_method: 'online_store',
+  note: 'Compra de productos',
+  order_id: 456
+};
+
+updateWallet(creditData, 'tu_jwt_token_aqui');
+updateWallet(debitData, 'tu_jwt_token_aqui');</code></pre>
+
+                <h4><i class="fab fa-python"></i> Python (Requests)</h4>
+                <pre><code>import requests
+import json
+
+def update_wallet(wallet_data, token):
+    url = "https://tu-sitio.com/wp-json/kl-wallet/v1/update-wallet"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    
+    response = requests.post(url, headers=headers, json=wallet_data)
+    result = response.json()
+    
+    if response.status_code == 200:
+        print(f"Monedero actualizado: {result}")
+        return result
+    else:
+        print(f"Error: {result}")
+
+# Ejemplo de recarga
+credit_data = {
+    "user_id": 123,
+    "amount": 50.00,
+    "action": "credit",
+    "transaction_detail": "Recarga desde aplicación móvil",
+    "payment_method": "mobile_app",
+    "note": "Recarga automática del sistema"
+}
+
+# Ejemplo de descuento
+debit_data = {
+    "user_id": 123,
+    "amount": 25.50,
+    "action": "debit",
+    "transaction_detail": "Compra en tienda online",
+    "payment_method": "online_store",
+    "note": "Compra de productos",
+    "order_id": 456
+}
+
+update_wallet(credit_data, "tu_jwt_token_aqui")
+update_wallet(debit_data, "tu_jwt_token_aqui")</code></pre>
+
+                <h4><i class="fab fa-php"></i> PHP (cURL)</h4>
+                <pre><code>&lt;?php
+function updateWallet($walletData, $token) {
+    $url = 'https://tu-sitio.com/wp-json/kl-wallet/v1/update-wallet';
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($walletData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Authorization: Bearer ' . $token
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+    
+    $result = json_decode($response, true);
+    
+    if (isset($result['success']) && $result['success']) {
+        echo "Monedero actualizado exitosamente\n";
+        echo "Nuevo balance: " . $result['data']['balance'] . "\n";
+        return $result;
+    } else {
+        echo "Error: " . json_encode($result) . "\n";
+        return null;
+    }
+}
+
+// Ejemplo de recarga
+$creditData = [
+    'user_id' => 123,
+    'amount' => 50.00,
+    'action' => 'credit',
+    'transaction_detail' => 'Recarga desde aplicación móvil',
+    'payment_method' => 'mobile_app',
+    'note' => 'Recarga automática del sistema'
+];
+
+// Ejemplo de descuento
+$debitData = [
+    'user_id' => 123,
+    'amount' => 25.50,
+    'action' => 'debit',
+    'transaction_detail' => 'Compra en tienda online',
+    'payment_method' => 'online_store',
+    'note' => 'Compra de productos',
+    'order_id' => 456
+];
+
+updateWallet($creditData, 'tu_jwt_token_aqui');
+updateWallet($debitData, 'tu_jwt_token_aqui');
+?&gt;</code></pre>
+
+                <h4><i class="fas fa-terminal"></i> cURL</h4>
+                <pre><code># Ejemplo de recarga (crédito)
+curl -X POST \
+  -H "Authorization: Bearer tu_jwt_token_aqui" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 123,
+    "amount": 50.00,
+    "action": "credit",
+    "transaction_detail": "Recarga desde aplicación móvil",
+    "payment_method": "mobile_app",
+    "note": "Recarga automática del sistema"
+  }' \
+  https://tu-sitio.com/wp-json/kl-wallet/v1/update-wallet
+
+# Ejemplo de descuento (débito)
+curl -X POST \
+  -H "Authorization: Bearer tu_jwt_token_aqui" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 123,
+    "amount": 25.50,
+    "action": "debit",
+    "transaction_detail": "Compra en tienda online",
+    "payment_method": "online_store",
+    "note": "Compra de productos",
+    "order_id": 456
+  }' \
+  https://tu-sitio.com/wp-json/kl-wallet/v1/update-wallet</code></pre>
+            </div>
+
+            <!-- Ejemplos con Postman -->
+            <div class="card code-example">
+                <h3><i class="fas fa-tools"></i> 4.5. Ejemplos con Postman</h3>
+                <p>Aquí tienes ejemplos de cómo configurar las requests en Postman:</p>
+                
+                <h4><i class="fas fa-download"></i> Colección de Postman</h4>
+                <p>Puedes importar esta colección directamente en Postman:</p>
+                <pre><code>{
+  "info": {
+    "name": "KL Wallet API",
+    "description": "Colección completa de endpoints para la API de KL Wallet",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://tu-sitio.com/wp-json/kl-wallet/v1",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "tu_api_key_aqui",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "tu_jwt_token_aqui",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Generate Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "{{api_key}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"service_name\": \"postman_test\",\n  \"expiration\": 3600\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/generate-token",
+          "host": ["{{base_url}}"],
+          "path": ["generate-token"]
+        }
+      }
+    },
+    {
+      "name": "Get User by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/get-user-by-id?user_id=123",
+          "host": ["{{base_url}}"],
+          "path": ["get-user-by-id"],
+          "query": [
+            {
+              "key": "user_id",
+              "value": "123"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get User by Phone",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/user-by-phone?phone=1234567890",
+          "host": ["{{base_url}}"],
+          "path": ["user-by-phone"],
+          "query": [
+            {
+              "key": "phone",
+              "value": "1234567890"
+            }
+          ]
+        }
+      }
+    },
+         {
+       "name": "Update Wallet (Credit)",
+       "request": {
+         "method": "POST",
+         "header": [
+           {
+             "key": "Authorization",
+             "value": "Bearer {{jwt_token}}"
+           },
+           {
+             "key": "Content-Type",
+             "value": "application/json"
+           }
+         ],
+         "body": {
+           "mode": "raw",
+           "raw": "{\n  \"user_id\": 123,\n  \"amount\": 50.00,\n  \"action\": \"credit\",\n  \"transaction_detail\": \"Recarga desde Postman\",\n  \"payment_method\": \"postman_test\",\n  \"note\": \"Prueba de API\"\n}"
+         },
+         "url": {
+           "raw": "{{base_url}}/update-wallet",
+           "host": ["{{base_url}}"],
+           "path": ["update-wallet"]
+         }
+       }
+     }
+  ]
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Sección del Diagrama de Flujo de Datos -->
+        <section id="diagrama-flujo">
+            <h2>5. Diagrama de Flujo de Datos</h2>
+            <p>El siguiente diagrama de flujo describe el proceso general para cualquier solicitud a la API, desde la validación inicial hasta la entrega de la respuesta.</p>
+            <div class="mermaid-container">
+                <pre class="mermaid">
+graph TD
+    A[Cliente] --> B[Request API]
+    B --> C{¿Es generate-token?}
+    
+    C -->|Sí| D[Validar API Key]
+    C -->|No| E[Validar JWT Token]
+    
+    D --> F[Generar JWT Token]
+    F --> G[Devolver Token]
+    
+    E --> H[Verificar IP]
+    H --> I[Validar Permisos]
+    I --> J[Ejecutar Endpoint]
+    
+    J --> K{¿Es user-by-phone?}
+    K -->|Sí| L[Buscar en Caché]
+    K -->|No| M[Ejecutar Lógica]
+    
+    L --> N{¿Cache Hit?}
+    N -->|Sí| O[Devolver Caché]
+    N -->|No| P[Consulta SQL Directa]
+    
+    P --> Q[Obtener Usuario]
+    Q --> R[Obtener Metadatos]
+    R --> S[Guardar en Caché]
+    S --> T[Log en Base de Datos]
+    T --> U[Devolver Respuesta]
+    
+    M --> V[Ejecutar Función]
+    V --> W[Log en Base de Datos]
+    W --> X[Devolver Respuesta]
+    
+    O --> Y[Respuesta Final]
+    U --> Y
+    X --> Y
+    G --> Y
+                </pre>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 4rem; padding: 2rem; border-top: 1px solid var(--border-color); color: var(--text-secondary);">
+            <p><i class="fas fa-heart" style="color: var(--error-color);"></i> Desarrollado con amor para la comunidad de desarrolladores</p>
+            <p><small>© 2024 KL Wallet API - Documentación v1.0</small></p>
+        </footer>
+
+        <!-- Botón flotante para volver al índice -->
+        <button id="back-to-index" class="floating-button" title="Volver al índice">
+            <i class="fas fa-list"></i>
+        </button>
+
+    </div>
+</body>
+</html>
