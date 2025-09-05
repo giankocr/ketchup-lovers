@@ -1085,6 +1085,7 @@ sequenceDiagram
                         <div class="endpoint-info">
                             <strong>User by Phone</strong>
                             <span>/wp-json/kl-wallet/v1/user-by-phone</span>
+                            <span>Ejemplo: <code>/wp-json/kl-wallet/v1/user-by-phone?phone=50212345678</code> (telefono con 15 dígitos 502)</span>
                         </div>
                         <i class="fas fa-chevron-right"></i>
                     </a>
@@ -1156,6 +1157,7 @@ sequenceDiagram
                 <h4><i class="fas fa-list"></i> Parámetros:</h4>
                 <div class="api-param">
                     <strong>phone</strong> (string, requerido): Número de teléfono del usuario.
+                    <span>Ejemplo: <code>/wp-json/kl-wallet/v1/user-by-phone?phone=50212345678</code> (telefono con 15 dígitos 502)</span>
                 </div>
                 
                 <div class="api-response">
@@ -1716,13 +1718,13 @@ curl -X POST \
           }
         ],
         "url": {
-          "raw": "{{base_url}}/user-by-phone?phone=1234567890",
+          "raw": "{{base_url}}/user-by-phone?phone=50212345678",
           "host": ["{{base_url}}"],
           "path": ["user-by-phone"],
           "query": [
             {
               "key": "phone",
-              "value": "1234567890"
+              "value": "50212345678"
             }
           ]
         }

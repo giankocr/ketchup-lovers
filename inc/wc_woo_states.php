@@ -52,3 +52,17 @@ function woo_wc_states($states) {
     return $states;
 }
 add_filter('woocommerce_states', 'woo_wc_states');
+
+/**
+ * Modifica el label del campo de ciudad en los campos de dirección por defecto
+ * 
+ * @param array $fields Campos de dirección
+ * @return array Campos modificados
+ */
+function modify_city_field_label($fields) {
+    if (isset($fields['city'])) {
+        $fields['city']['label'] = 'Municipio';
+    }
+    return $fields;
+}
+add_filter('woocommerce_default_address_fields', 'modify_city_field_label');

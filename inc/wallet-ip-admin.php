@@ -31,6 +31,11 @@ class KL_Wallet_IP_Admin {
                 Las funciones de gestión de IPs no están disponibles. 
                 Verifica que el archivo <code>API/ip-manager.php</code> esté presente y se haya incluido correctamente.
             </p>
+            <p>
+                <a href="<?php echo admin_url('tools.php?page=kl-wallet-ip-manager&action=debug'); ?>" class="button button-secondary">
+                    Ver Información de Depuración
+                </a>
+            </p>
         </div>
         <?php
     }
@@ -77,6 +82,7 @@ class KL_Wallet_IP_Admin {
         add_action('admin_menu', [$this, 'add_admin_menu']);
         add_action('admin_init', [$this, 'handle_form_submissions']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
+        add_action('admin_footer', [$this, 'add_custom_scripts']);
     }
     
     /**
@@ -137,6 +143,10 @@ class KL_Wallet_IP_Admin {
                 
             case 'toggle_restriction':
                 $this->handle_toggle_restriction();
+                break;
+                
+            case 'import_google_cloud':
+                $this->handle_import_google_cloud();
                 break;
                 
             case 'bulk_action':
@@ -209,6 +219,40 @@ class KL_Wallet_IP_Admin {
     }
     
     /**
+     * Manejar importación de IPs de Google Cloud
+     */
+    private function handle_import_google_cloud(): void {
+        $import_type = sanitize_text_field($_POST['import_type'] ?? 'all');
+        $filters = [];
+        
+        // Configurar filtros si se especifican
+        if ($import_type === 'filtered') {
+            $services = $_POST['google_services'] ?? [];
+            $scopes = $_POST['google_scopes'] ?? [];
+            
+            if (!empty($services)) {
+                $filters['services'] = array_map('sanitize_text_field', $services);
+            }
+            if (!empty($scopes)) {
+                $filters['scopes'] = array_map('sanitize_text_field', $scopes);
+            }
+        }
+        
+        // Ejecutar la importación
+        if (!empty($filters)) {
+            $result = function_exists('kl_wallet_add_google_cloud_ips_filtered') 
+                ? kl_wallet_add_google_cloud_ips_filtered($filters) 
+                : ['success' => false, 'message' => 'Función de importación no disponible'];
+        } else {
+            $result = function_exists('kl_wallet_add_google_cloud_ips') 
+                ? kl_wallet_add_google_cloud_ips() 
+                : ['success' => false, 'message' => 'Función de importación no disponible'];
+        }
+        
+        $this->add_admin_notice($result['message'], $result['success'] ? 'success' : 'error');
+    }
+    
+    /**
      * Manejar acciones en lote
      */
     private function handle_bulk_action(): void {
@@ -263,6 +307,12 @@ class KL_Wallet_IP_Admin {
         // Verificar permisos
         if (!current_user_can('manage_options')) {
             wp_die('No tienes permisos para acceder a esta página');
+        }
+        
+        // Verificar si se solicita información de depuración
+        if (isset($_GET['action']) && $_GET['action'] === 'debug') {
+            $this->show_debug_info();
+            return;
         }
         
         // Obtener datos
@@ -366,6 +416,70 @@ class KL_Wallet_IP_Admin {
                         
                         <p class="submit">
                             <button type="submit" class="button button-primary">Agregar IP</button>
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- Importar IPs de Google Cloud -->
+                <div class="kl-wallet-card">
+                    <h2>Importar IPs de Google Cloud</h2>
+                    <form method="post" class="kl-wallet-form">
+                        <?php wp_nonce_field('kl_wallet_ip_action', 'kl_wallet_nonce'); ?>
+                        <input type="hidden" name="kl_wallet_ip_action" value="import_google_cloud">
+                        
+                        <table class="form-table">
+                            <tr>
+                                <th scope="row">
+                                    <label for="import_type">Tipo de importación:</label>
+                                </th>
+                                <td>
+                                    <select id="import_type" name="import_type" onchange="toggleGoogleCloudFilters()">
+                                        <option value="all">Todas las IPs de Google Cloud</option>
+                                        <option value="filtered">Filtrar por servicio/región</option>
+                                    </select>
+                                    <p class="description">
+                                        Importa automáticamente los rangos de IP de Google Cloud desde el archivo oficial.
+                                    </p>
+                                </td>
+                            </tr>
+                            
+                            <tr id="google-filters" style="display: none;">
+                                <th scope="row">
+                                    <label>Filtros:</label>
+                                </th>
+                                <td>
+                                    <div style="margin-bottom: 10px;">
+                                        <strong>Servicios:</strong><br>
+                                        <label><input type="checkbox" name="google_services[]" value="Google Cloud"> Google Cloud</label><br>
+                                        <label><input type="checkbox" name="google_services[]" value="Cloud NAT"> Cloud NAT</label><br>
+                                        <label><input type="checkbox" name="google_services[]" value="Cloud VPN"> Cloud VPN</label>
+                                    </div>
+                                    
+                                    <div>
+                                        <strong>Regiones (ejemplos):</strong><br>
+                                        <label><input type="checkbox" name="google_scopes[]" value="us-central1"> us-central1</label><br>
+                                        <label><input type="checkbox" name="google_scopes[]" value="us-east1"> us-east1</label><br>
+                                        <label><input type="checkbox" name="google_scopes[]" value="europe-west1"> europe-west1</label><br>
+                                        <label><input type="checkbox" name="google_scopes[]" value="asia-east1"> asia-east1</label>
+                                    </div>
+                                    
+                                    <p class="description">
+                                        Deja vacío para incluir todos los servicios/regiones disponibles.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <p class="submit">
+                            <button type="submit" class="button button-primary">
+                                <span class="dashicons dashicons-cloud" style="margin-right: 5px;"></span>
+                                Importar IPs de Google Cloud
+                            </button>
+                        </p>
+                        
+                        <p class="description">
+                            <strong>Nota:</strong> Esta operación puede tomar varios segundos y agregará cientos de rangos de IP.
+                            Solo se agregarán los rangos que no estén ya en tu lista de IPs permitidas.
                         </p>
                     </form>
                 </div>
@@ -512,6 +626,96 @@ class KL_Wallet_IP_Admin {
         }
         
         return 'Desconocido';
+    }
+    
+    /**
+     * Mostrar información de depuración
+     */
+    public function show_debug_info(): void {
+        ?>
+        <div class="wrap">
+            <h1>Información de Depuración - API Wallet IP Manager</h1>
+            
+            <p><a href="<?php echo admin_url('tools.php?page=kl-wallet-ip-manager'); ?>" class="button button-secondary">
+                ← Volver al Panel Principal
+            </a></p>
+            
+            <?php
+            if (function_exists('kl_wallet_debug_show_report')) {
+                kl_wallet_debug_show_report();
+            } else {
+                echo '<div class="notice notice-error"><p>Las funciones de depuración no están disponibles.</p></div>';
+            }
+            ?>
+            
+            <h2>Información del Sistema</h2>
+            <table class="wp-list-table widefat fixed striped">
+                <tbody>
+                    <tr>
+                        <td><strong>WordPress Version:</strong></td>
+                        <td><?php echo get_bloginfo('version'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>PHP Version:</strong></td>
+                        <td><?php echo PHP_VERSION; ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Theme Directory:</strong></td>
+                        <td><?php echo defined('THEME_DIR') ? THEME_DIR : 'No definido'; ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ABSPATH:</strong></td>
+                        <td><?php echo defined('ABSPATH') ? ABSPATH : 'No definido'; ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Archivos Incluidos:</strong></td>
+                        <td>
+                            <?php
+                            $included_files = get_included_files();
+                            $api_files = array_filter($included_files, function($file) {
+                                return strpos($file, 'API/') !== false;
+                            });
+                            if (!empty($api_files)) {
+                                echo '<ul>';
+                                foreach ($api_files as $file) {
+                                    echo '<li>' . esc_html($file) . '</li>';
+                                }
+                                echo '</ul>';
+                            } else {
+                                echo 'No se encontraron archivos de API incluidos';
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Agregar JavaScript personalizado para la funcionalidad de Google Cloud
+     */
+    public function add_custom_scripts(): void {
+        ?>
+        <script type="text/javascript">
+        function toggleGoogleCloudFilters() {
+            var importType = document.getElementById('import_type').value;
+            var filtersRow = document.getElementById('google-filters');
+            
+            if (importType === 'filtered') {
+                filtersRow.style.display = 'table-row';
+            } else {
+                filtersRow.style.display = 'none';
+            }
+        }
+        
+        // Ejecutar al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleGoogleCloudFilters();
+        });
+        </script>
+        <?php
     }
 }
 

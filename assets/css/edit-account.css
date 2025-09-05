@@ -1,0 +1,125 @@
+/**
+ * Custom Edit Account Form Styles
+ * Estilos personalizados para el formulario de edición de cuenta
+ */
+
+/* Phone fields section styling */
+.woocommerce-EditAccountForm fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #f9f9f9;
+}
+
+.woocommerce-EditAccountForm fieldset legend {
+    font-weight: 600;
+    color: #333;
+    padding: 0 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* Phone input fields */
+.woocommerce-EditAccountForm input[type="tel"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.woocommerce-EditAccountForm input[type="tel"]:focus {
+    border-color: var(--primary-color, #007cba);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.2);
+}
+
+/* Phone field labels */
+.woocommerce-EditAccountForm label[for="meta_xeerpa_phone"],
+.woocommerce-EditAccountForm label[for="billing_phone"],
+.woocommerce-EditAccountForm label[for="shipping_phone"] {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Success message styling */
+.woocommerce-message {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+/* Error message styling */
+.woocommerce-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+/* Form button styling */
+.woocommerce-EditAccountForm .woocommerce-Button {
+    background-color: var(--primary-color, #007cba);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.woocommerce-EditAccountForm .woocommerce-Button:hover {
+    background-color: var(--primary-color-dark, #005a87);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .woocommerce-EditAccountForm fieldset {
+        padding: 15px;
+        margin: 15px 0;
+    }
+    
+    .woocommerce-EditAccountForm input[type="tel"] {
+        padding: 10px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .woocommerce-EditAccountForm .woocommerce-Button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+/* Fieldset spacing */
+.woocommerce-EditAccountForm fieldset + fieldset {
+    margin-top: 30px;
+}
+
+/* Required field indicator */
+.woocommerce-EditAccountForm .required {
+    color: #e74c3c;
+}
+
+/* Form row spacing */
+.woocommerce-EditAccountForm .form-row {
+    margin-bottom: 20px;
+}
+
+/* Clear fix for form layout */
+.woocommerce-EditAccountForm .clear {
+    clear: both;
+    height: 0;
+    overflow: hidden;
+}
+

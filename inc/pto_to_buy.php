@@ -51,13 +51,18 @@ function kerns_pto_to_buy($atts = array()) {
     // Get product price
     $price = $product->get_price();
     $product_url = $product->get_permalink();
+    
+    // Convert values to numbers to avoid string operation errors
+    $price = floatval($price);
+    $user_points = floatval($user_points);
+    
     // Calculate points needed (assuming 1 point = $1)
     $points_needed = $price - $user_points;
 
     if( isset($atts['points_per_unit']) ){
-        $buy_needed_cpt =  $points_needed / $atts['points_per_unit'];
+        $buy_needed_cpt =  $points_needed / floatval($atts['points_per_unit']);
     }else{
-        $buy_needed_cpt =  $points_needed / $cost_pto_cpt;
+        $buy_needed_cpt =  $points_needed / floatval($cost_pto_cpt);
     }
 
     // Always round up to ensure customer can afford the product

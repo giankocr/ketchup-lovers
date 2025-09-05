@@ -32,28 +32,156 @@
     z-index: 0;
 }
 
-.login-form-wrapper {
-    background: #FFF;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    padding: 60px 50px;
+/* Estilos específicos para el formulario de login como en la imagen */
+#loginform {
+    background: #C00000; /* Fondo rojo como en la imagen */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 480px;
-    backdrop-filter: blur(10px);
-    border: none;
+    max-width: 400px;
     position: relative;
     z-index: 1;
-    animation: fadeInUp 0.6s ease-out;
+}
+ .divisor::before,
+ .divisor::after{
+    background-color: #fff !important;
+}
+.formfooter .lost_pass_xpsocial{
+    margin-top: 20px !important;
+}
+/* Estilos para las etiquetas */
+#loginform label {
+    color: #E0E0E0; /* Color gris claro para las etiquetas */
+    font-family: 'TangoSans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    display: block;
+    text-transform: none;
+    letter-spacing: normal;
+    text-align: left;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+/* Estilos para los inputs */
+#loginform input[type="text"],
+#loginform input[type="password"] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #FFFFFF; /* Línea blanca en la parte inferior */
+    border-radius: 0;
+    padding: 12px 0;
+    font-size: 16px;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    outline: none;
+}
+
+/* Estilos para el focus de los inputs */
+#loginform input[type="text"]:focus,
+#loginform input[type="password"]:focus {
+    border-bottom-color: #FFFFFF;
+    border-bottom-width: 2px;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Placeholder styles */
+#loginform input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Estilos para el checkbox "Recordame" */
+#loginform .login-remember {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+#loginform .login-remember label {
+    color: #E0E0E0;
+    font-size: 14px;
+    font-family: 'TangoSans', sans-serif;
+    cursor: pointer;
+    font-weight: 400;
+    margin-left: 10px;
+    text-transform: none;
+    letter-spacing: normal;
+    margin-bottom: 0;
+}
+
+#loginform .login-remember input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #FFFFFF;
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Estilos para el botón de envío */
+#loginform .login-submit {
+    margin-top: 30px;
+}
+
+#loginform #wp-submit {
+    background: transparent;
+    border: 2px solid #FFFFFF;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 500;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: none;
+    letter-spacing: normal;
+    position: relative;
+    overflow: hidden;
+}
+
+#loginform #wp-submit:hover {
+    background: #FFFFFF;
+    color: #C00000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+#loginform #wp-submit:active {
+    transform: translateY(0);
+}
+
+/* Estilos para mensajes de error */
+#loginform .login-error {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #FFFFFF;
+    padding: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'TangoSans', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Responsive design para el formulario */
+@media (max-width: 480px) {
+    
+
+    #loginform input[type="text"],
+    #loginform input[type="password"] {
+        font-size: 15px;
+        padding: 10px 0;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    #loginform #wp-submit {
+        padding: 12px 25px;
+        font-size: 15px;
     }
 }
 

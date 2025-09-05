@@ -28,15 +28,33 @@ include_once THEME_DIR . '/inc/shortcode-coleccion.php';
 include_once THEME_DIR . '/inc/titulo_productos.php';
 include_once THEME_DIR . '/inc/pto_to_buy.php';
 include_once THEME_DIR . '/inc/misc.php';
+include_once THEME_DIR . '/inc/restriccion_compra.php';
 
 // Include API files
+include_once THEME_DIR . '/API/ip-functions-fallback.php';
 include_once THEME_DIR . '/API/config.php';
 include_once THEME_DIR . '/API/api-wallet.php';
 include_once THEME_DIR . '/API/generar-token.php';
 include_once THEME_DIR . '/API/ip-manager.php';
+include_once THEME_DIR . '/API/debug-helper.php';
+
+//Elementor
+include_once THEME_DIR . '/elementor/orderbypuntos.php';
 
 // Include Wallet IP Admin Panel
 include_once THEME_DIR . '/inc/wallet-ip-admin.php';
+
+// Hook para redirección directa al checkout
+add_filter('woocommerce_add_to_cart_redirect', 'redirect_to_checkout_after_add_to_cart', 10, 2);
+
+function redirect_to_checkout_after_add_to_cart($redirect_url, $product_id) {
+    // Verificar si se solicitó redirección directa al checkout
+    if (isset($_POST['redirect_to_checkout']) && $_POST['redirect_to_checkout'] === '1') {
+        return wc_get_checkout_url();
+    }
+    
+    return $redirect_url;
+}
 
 // Enqueue custom styles
 function add_styles_css() {
@@ -138,11 +156,11 @@ add_filter( 'woocommerce_account_menu_items', 'kernslovers_remove_address_my_acc
  
 function kernslovers_remove_address_my_account( $items ) {
 unset($items['edit-address']);
-unset($items['edit-account']);
 unset($items['dashboard']);
 unset($items['downloads']);
 unset($items['address']);
 unset($items['customer-logout']);
+// Keep edit-account for custom phone fields
 return $items;
 }
  
@@ -155,7 +173,8 @@ add_filter( 'woocommerce_account_menu_items', 'kernslovers_rename_tabs_my_accoun
  
 function kernslovers_rename_tabs_my_account( $items ) {
     $items['orders'] = 'Productos comprados';
-    $items['wps-wallet'] = 'Mi Wallet';
+    $items['wps-wallet'] = 'Billetera';
+    $items['edit-account'] = 'Ver cuenta';
 
     // Es crucial devolver el array modificado.
     return $items;
@@ -200,9 +219,10 @@ function redirigir_mi_cuenta_a_wallet_transactions() {
     $is_base_url = ! isset( $query_vars['wps-wallet'] );
     $is_base_url_2 = ! isset( $query_vars['orders'] );
     $is_base_url_3 = ! isset( $query_vars['view-order'] );
+    $is_base_url_4 = ! isset( $query_vars['edit-account'] );
 
     // Si AMBAS condiciones son verdaderas, procedemos a redirigir.
-    if ( $is_my_account && $is_base_url && $is_base_url_2 && $is_base_url_3 ) {
+    if ( $is_my_account && $is_base_url && $is_base_url_2 && $is_base_url_3 && $is_base_url_4   ) {
 
         // Construimos la URL de destino final.
         // Primero, obtenemos la URL del endpoint principal 'wps-wallet'.
@@ -242,4 +262,33 @@ function add_login_logout_link( $items, $args ) {
         $items .= '<li><a href="'. wp_logout_url("/home") .'">Cerrar Sesión</a></li>';
     }
     return $items;
+}
+
+
+/**
+ * Enqueue custom CSS for edit account form
+ * Carga los estilos CSS para el formulario de edición de cuenta
+ */
+add_action('wp_enqueue_scripts', 'kerns_enqueue_edit_account_styles');
+
+function kerns_enqueue_edit_account_styles() {
+    // Only load on account pages
+    if (is_account_page()) {
+        wp_enqueue_style(
+            'kerns-edit-account-styles',
+            THEME_URI . '/assets/css/edit-account.css',
+            array(),
+            KERN_LOVERS_VERSION
+        );
+    }
+}
+
+add_filter( 'woocommerce_single_product_carousel_options', 'ketchuplovers_habilitar_flechas_galeria' );
+
+function ketchuplovers_habilitar_flechas_galeria( $options ) {
+    // Forzamos el valor a 'true', ignorando otras configuraciones
+    $options['directionNav'] = true;
+    $options['nextText'] = '›';
+    $options['prevText'] = '‹';
+    return $options;
 }

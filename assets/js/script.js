@@ -13,5 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     this.ketchupMenu = new ketchupMenu();
     this.ketchupMenu.textBannerAnimation();
     this.ketchupMenu.tomateCayendoAnimation();
+    
 });
 

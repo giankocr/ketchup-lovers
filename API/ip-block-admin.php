@@ -949,7 +949,9 @@ class KL_Wallet_IP_Block_Admin {
     private function get_logs_count(): int {
         global $wpdb;
         $table_name = $wpdb->prefix . 'kl_wallet_ip_403_logs';
-        return $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+        $count = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
+        // Convertir a entero y manejar valores null
+        return (int) ($count ?? 0);
     }
 
     /**
@@ -978,10 +980,10 @@ class KL_Wallet_IP_Block_Admin {
         ));
 
         return [
-            'total_logs' => $total_logs,
-            'today_logs' => $today_logs,
-            'week_logs' => $week_logs,
-            'month_logs' => $month_logs
+            'total_logs' => (int) ($total_logs ?? 0),
+            'today_logs' => (int) ($today_logs ?? 0),
+            'week_logs' => (int) ($week_logs ?? 0),
+            'month_logs' => (int) ($month_logs ?? 0)
         ];
     }
 

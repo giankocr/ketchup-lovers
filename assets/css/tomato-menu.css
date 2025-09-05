@@ -9,7 +9,7 @@
 }
 /* Contenedor principal del menú para posicionamiento */
 .menu-ketchup-container {
-  width: 100vw;
+  width: 100%;
   z-index: 9999;
   display: flex;
   align-items: flex-end;
@@ -44,6 +44,9 @@
   height: auto;
   z-index: -1;
   opacity: 0;
+}
+.tomate-icon-menu {
+  z-index: -1;
 }
 
 .tomato-icon-path img {
@@ -81,7 +84,7 @@
 .menu-ketchup-container .menu-item:hover,
 .menu-ketchup-container .menu-item-center:hover {
   transform: translateY(-3px);
-}
+} 
 
 .menu-ketchup-container .menu-item span,
 .menu-ketchup-container .menu-item-center span {
@@ -94,7 +97,7 @@
 
 .menu-ketchup-container .menu-item:hover,
 .menu-ketchup-container .menu-item-center:hover {
-  color: #af0000;
+  color: #070606;
   transition: color 0.2s ease-in-out;
 }
 
@@ -137,7 +140,7 @@
   }
 
   .nav-ketchup {
-    height: 70px;
+    height: 80px;
     padding: 5px 0 3px 0;
   }
 
@@ -220,3 +223,94 @@
   transform: translateX(-50%);
   z-index: 9;
 }
+
+/* ========================================
+   ESTILOS DE ACCESIBILIDAD
+   ======================================== */
+
+
+/* Indicador de estado activo */
+.nav-ketchup a[aria-current="page"] {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    transform: translateY(-2px);
+}
+
+
+
+/* Estilos para modo de alto contraste */
+@media (prefers-contrast: high) {
+    .nav-ketchup {
+        border-top: 3px solid #ffffff;
+    }
+    
+    .nav-ketchup a:focus {
+        outline: 4px solid #ffffff;
+        outline-offset: 3px;
+    }
+    
+    .nav-ketchup span {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Estilos para modo de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .nav-ketchup a,
+    .nav-ketchup .menu-item,
+    .nav-ketchup .menu-item-center {
+        transition: none;
+    }
+    
+    .nav-ketchup a:focus {
+        transform: none;
+    }
+}
+
+/* Mejorar accesibilidad en dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+    .nav-ketchup a {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .nav-ketchup a:active {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(0.95);
+    }
+}
+
+/* Estilos para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Mejorar semántica visual */
+.nav-ketchup[role="navigation"] {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Indicadores de estado para elementos interactivos */
+.nav-ketchup a:hover,
+.nav-ketchup a:focus {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Mejorar legibilidad del texto */
+.nav-ketchup .text-menu-center {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+

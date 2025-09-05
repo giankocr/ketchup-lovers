@@ -33,6 +33,27 @@ require_once __DIR__ . '/ip-block-admin.php';
 class KL_Wallet_API {
     
     /**
+     * Verificar que las dependencias de IP estén disponibles
+     * 
+     * @return bool
+     */
+    private function check_ip_dependencies(): bool {
+        $required_functions = [
+            'kl_wallet_is_ip_restriction_enabled',
+            'kl_wallet_is_ip_allowed'
+        ];
+        
+        foreach ($required_functions as $function) {
+            if (!function_exists($function)) {
+                error_log("KL Wallet API: Función requerida no disponible: $function");
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
      * Obtener API Key válida para autenticación
      * 
      * @return string
@@ -585,7 +606,7 @@ class KL_Wallet_API {
             global $wpdb;
             $user_id = $wpdb->get_var($wpdb->prepare(
                 "SELECT user_id FROM {$wpdb->usermeta} 
-                 WHERE meta_key = 'billing_phone' 
+                 WHERE meta_key = 'meta_xeerpa_phone' 
                  AND meta_value = %s 
                  LIMIT 1",
                 $phone_number
@@ -1013,6 +1034,13 @@ class KL_Wallet_API {
             return false;
         }
         
+        // Verificar que las funciones de IP estén disponibles
+        if (!function_exists('kl_wallet_is_ip_restriction_enabled') || !function_exists('kl_wallet_is_ip_allowed')) {
+            // Si las funciones no están disponibles, log del error y permitir acceso
+            error_log('KL Wallet API: Funciones de IP no disponibles - permitiendo acceso por defecto');
+            return true;
+        }
+        
         // Si la restricción de IPs está deshabilitada, permitir
         if (!kl_wallet_is_ip_restriction_enabled()) {
             return true;
@@ -1138,13 +1166,18 @@ class KL_Wallet_API {
      */
     private function log_api_request(array $data): void {
         // Crear entrada de log
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        } else {
+            $user_agent = 'Unknown';
+        }
         $log_entry = [
             'timestamp' => current_time('mysql'),
             'ip' => $data['ip'],
             'action' => $data['action'],
             'user_id' => $data['user_id'] ?? 0,
             'service_name' => $data['service_name'] ?? '',
-            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown'
+            'user_agent' => $user_agent
         ];
         
         // Solo guardar en base de datos, no en archivo
@@ -1251,12 +1284,12 @@ class KL_Wallet_API {
         $wpdb->insert(
             $table_name,
             [
-                'timestamp' => $log_entry['timestamp'],
-                'ip_address' => $log_entry['ip'],
-                'action' => $log_entry['action'],
-                'user_id' => $log_entry['user_id'],
-                'service_name' => $log_entry['service_name'],
-                'user_agent' => $log_entry['user_agent']
+                'timestamp' => $log_entry['timestamp'] ?? current_time('mysql'),
+                'ip_address' => $log_entry['ip'] ?? $this->get_client_ip(),
+                'action' => $log_entry['action'] ?? 'unknown',
+                'user_id' => $log_entry['user_id'] ?? 0,
+                'service_name' => $log_entry['service_name'] ?? '',
+                'user_agent' => $log_entry['user_agent'] ?? 'Unknown'
             ],
             ['%s', '%s', '%s', '%d', '%s', '%s']
         );
@@ -1279,11 +1312,11 @@ class KL_Wallet_API {
         $wpdb->insert(
             $table_name,
             [
-                'timestamp' => $log_entry['timestamp'],
-                'ip_address' => $log_entry['ip'],
-                'action' => $log_entry['action'],
-                'status' => $log_entry['status'],
-                'duration_ms' => $log_entry['duration_ms']
+                'timestamp' => $log_entry['timestamp'] ?? current_time('mysql'),
+                'ip_address' => $log_entry['ip'] ?? $this->get_client_ip(),
+                'action' => $log_entry['action'] ?? 'unknown',
+                'status' => $log_entry['status'] ?? 'unknown',
+                'duration_ms' => $log_entry['duration_ms'] ?? 0.0
             ],
             ['%s', '%s', '%s', '%s', '%f']
         );

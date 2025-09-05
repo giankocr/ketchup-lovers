@@ -6,9 +6,7 @@
     --color-gray: #BABABA;
 }
 
-.single_add_to_cart_button {
-    display: none !important;
-  }
+
 .cantidad-container {
     display: flex;
     margin-bottom: 24px;
@@ -157,31 +155,3 @@
   background: #5a0f0f;
 }
 
-li.variable-item.button-variable-item{
-    border:0.5px solid var(--color-gray) !important;
-    background-color: var(--color-white) !important;
-    color: var(--color-gray) !important;
-}
-
-li.variable-item.button-variable-item.selected{
-    border:5px solid var(--color-primary) !important;
-    background-color: var(--color-primary) !important;
-    color: var(--color-white) !important;
-    box-shadow: 0px 0px 0px 2px var(--color-primary) !important;
-
-}
-span.variable-item-span.variable-item-span-button{
-    font-family: 'TangoSans', sans-serif;
-    font-weight: 300;
-    font-size: 1.2em;
-    color: var(--color-gray) !important;
-}
-li.variable-item.button-variable-item.selected span.variable-item-span.variable-item-span-button{
-    color: var(--color-white) !important;
-}
-td.value.woo-variation-items-wrapper a.reset_variations {
-    display: none !important;
-}
-.single_variation_wrap .quantity{
-   display: none !important; 
-}

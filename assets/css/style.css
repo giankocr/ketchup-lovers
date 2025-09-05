@@ -15,6 +15,7 @@
 @import 'account.css';
 @import 'ketchup-to-buy.css';
 @import 'thankyou.css';
+@import 'product.css';
 
 @media (max-width: 768px) {
     .two-columns {

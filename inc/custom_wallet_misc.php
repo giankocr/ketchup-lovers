@@ -227,6 +227,10 @@ function custom_change_wallet_gateway_title( $available_gateways ) {
         $user_id = get_current_user_id();
         $user_balance = get_user_meta( $user_id, 'wps_wallet', true );
         
+        // Validar y convertir el saldo a un número válido
+        // Si el saldo está vacío o no es numérico, establecerlo en 0
+        $user_balance = ( ! empty( $user_balance ) && is_numeric( $user_balance ) ) ? floatval( $user_balance ) : 0.0;
+        
         // Define el nuevo texto.
         // Usa `number_format_i18n` para formatear el número según las configuraciones de WordPress.
         $new_title = sprintf( 'Canjear con puntos. Tu saldo actual: %s Puntos', number_format_i18n( $user_balance, 0 ) );

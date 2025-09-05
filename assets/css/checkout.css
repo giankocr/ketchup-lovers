@@ -193,7 +193,20 @@ p#billing_state_field {
 h3#order_review_heading {
     display: none; /*Remove This if You Want The Order Review Heading*/
 }
-
+p.woocommerce-notice.woocommerce-notice--success.woocommerce-thankyou-order-received{
+    text-align: center;
+    color:#f7f8fa;
+}
+.woocommerce-order-overview.woocommerce-thankyou-order-details.order_details {
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 10px;
+    padding: 20px;
+    font-family: unset;
+}
+.woocommerce-order-overview.woocommerce-thankyou-order-details.order_details li {
+    font-family: unset !important;
+}
 /* Order Review Container Styles */
 div#order_review,div#customer_details {
     background: white;

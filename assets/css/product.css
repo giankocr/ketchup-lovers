@@ -1,0 +1,296 @@
+/* FlexSlider Navigation Controls Styles */
+
+/* Contenedor principal de las flechas de navegación */
+.flex-direction-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 10;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none; /* Permite que los clicks pasen a través del contenedor */
+}
+
+/* Contenedores de las flechas individuales */
+.flex-nav-prev,
+.flex-nav-next {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    pointer-events: auto; /* Restaura los clicks en las flechas */
+}
+
+/* Enlaces de las flechas */
+.flex-prev,
+.flex-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin:5px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    text-decoration: none;
+    color: #333 !important;
+    font-size: 26px !important;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto hover para las flechas */
+.flex-prev:hover,
+.flex-next:hover {
+    background-color: #fff;
+    border-color: #000000;
+    color: #000000;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/* Estado deshabilitado */
+.flex-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.flex-disabled:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: #ddd;
+    color: #333;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Ocultar el texto original */
+.flex-prev,
+.flex-next {
+    font-size: 0; /* Oculta el texto */
+    color: transparent; /* Hace el texto transparente */
+}
+
+
+
+/* Responsive design para pantallas pequeñas */
+@media (max-width: 768px) {
+    .flex-prev,
+    .flex-next {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+
+}
+
+/* Responsive design para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .flex-prev,
+    .flex-next {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+
+}
+
+/* Animación de entrada para las flechas */
+@keyframes fadeInNav {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+.flex-direction-nav {
+    animation: fadeInNav 0.3s ease-out;
+}
+
+/* Estilos alternativos para tema oscuro */
+.flex-direction-nav.dark-theme .flex-prev,
+.flex-direction-nav.dark-theme .flex-next {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-color: #555;
+    color: #fff;
+}
+
+.flex-direction-nav.dark-theme .flex-prev:hover,
+.flex-direction-nav.dark-theme .flex-next:hover {
+    background-color: #ba1900;
+    border-color: #ba1900;
+    color: #f9f9f9;
+}
+
+
+
+/* EXCLUIR SELECTS DE WOOCOMMERCE DE LOS ESTILOS DE REGISTRO */
+.woocommerce .variations select,
+.woocommerce form.cart select,
+.woocommerce .variations_form select {
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+    border-radius: 4px !important;
+    background-color: white !important;
+    border: 1px solid #ddd !important;
+    padding: 8px 12px !important;
+    cursor: pointer !important;
+}
+
+/* --- Contenedor Principal --- */
+.elementor-product-variable .variations_form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espacio entre Talla, Cantidad y botones */
+}
+.canjear-prenda-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+/* --- Estilos para las Tallas (requiere plugin de swatches) --- */
+.variations .label, .quantity_title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+.variations .value {
+    border: none;
+    padding: 0;
+}
+
+.woo-variation-swatches .wvs-style-button .swatch {
+    border-radius: 50% !important; /* Círculos perfectos */
+    box-shadow: none !important;
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+    color: #888;
+    min-width: 45px;
+    height: 45px;
+}
+
+/* Estilo para la talla seleccionada */
+.woo-variation-swatches .wvs-style-button .swatch.selected {
+    background-color: #e53935 !important; /* Rojo */
+    color: #fff !important;
+    border-color: #e53935 !important;
+}
+
+/* --- Estilos para el Selector de Cantidad --- */
+.variations_form .quantity {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 30px; /* Bordes redondeados */
+    overflow: hidden;
+    padding: 5px;
+    max-width: 150px; /* Ancho máximo del control */
+}
+
+.quantity .qty {
+    border: none !important;
+    text-align: center;
+    width: 50px;
+    box-shadow: none;
+    padding: 5px !important;
+    background: transparent;
+}
+
+/* Ocultar las flechas por defecto del input number */
+.quantity .qty::-webkit-outer-spin-button,
+.quantity .qty::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.quantity .qty {
+    -moz-appearance: textfield;
+}
+
+/* Estilos para los botones +/- (si tu tema o Elementor los crea) */
+.quantity .minus, .quantity .plus {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0 15px;
+    color: #e53935;
+    line-height: 1;
+}
+
+
+/* --- Estilos para los Botones --- */
+.woocommerce-variation-add-to-cart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los dos botones */
+}
+
+/* Botón "Agregar al Carrito" y el nuevo botón */
+.single_add_to_cart_button, .canjear-prenda-button {
+    width: 100% !important;
+    border-radius: 30px !important;
+    padding: 15px !important;
+    font-weight: bold !important;
+    border: none !important;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+/* Estilo del nuevo botón "Canjear Prenda" */
+.canjear-prenda-button {
+    background-color: #e53935 !important; /* Rojo principal */
+    color: white !important;
+    order: -1; /* Mueve este botón antes del de "Agregar al carrito" */
+    text-decoration: none;
+}
+.canjear-prenda-button:hover {
+    background-color: #c42f2b !important;
+}
+
+/* Estilo del botón "Agregar al Carrito" */
+.single_add_to_cart_button {
+    background-color: #8B0000 !important; /* Rojo oscuro (Maroon) */
+    color: white !important;
+}
+.single_add_to_cart_button:hover {
+    background-color: #6e0000 !important;
+}
+.add_to_cart_kerns .e-atc-qty-button-holder,.add_to_cart_kerns .quantity, .add_to_cart_kerns button.single_add_to_cart_button.button.alt{
+    display: none !important;
+}
+p.stock.in-stock {
+    color: #e53935 !important;
+    margin-top: -5px;
+}
+table.variations.cfvsw-variation-disable-logic {
+    margin-bottom: 0 !important;
+}
+a.reset_variations{
+    color: #000 !important;
+}
+.cfvsw-swatches-option.cfvsw-image-option{
+    min-height: 50px !important;
+    min-width: 50px !important;
+    margin-bottom: 10px !important;
+}

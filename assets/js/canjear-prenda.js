@@ -1,79 +1,81 @@
 jQuery(function($) {
-    // Seleccionamos los elementos
-    const form = $('.variations_form, form.cart');
-    const canjearButton = $('.canjear-prenda-button');
-    const agregarCarritoButton = $('.agregar-carrito-button');
-    const quantityInput = $('input.qty');
-    const numberSpan = $('.cantidad-numero');
-    const minusBtn = $('.cantidad-menos');
-    const plusBtn = $('.cantidad-mas');
-
-    // Sincroniza el número visual con el input real
-    function syncCantidadVisual() {
-        let cantidad = parseInt(quantityInput.val());
-        if (isNaN(cantidad) || cantidad < 1) cantidad = 1;
-        numberSpan.text(cantidad);
-    }
-
-    // Cambia la cantidad al hacer click en los botones
-    minusBtn.on('click', function(e) {
+    
+    // Mostrar botón después de que la página cargue
+    setTimeout(function() {
+        $('.canjear-prenda-button').show();
+    }, 1000);
+    
+    // Manejar botón "Canjear prenda ahora"
+    $(document).on('click', '.canjear-prenda-button', function(e) {
         e.preventDefault();
-        let cantidad = parseInt(quantityInput.val());
-        if (cantidad > 1) {
-            cantidad--;
-            quantityInput.val(cantidad).trigger('change');
-            syncCantidadVisual();
+        
+        const $button = $(this);
+        const checkoutUrl = $button.data('checkout-url');
+        
+        // Deshabilitar botón y mostrar estado de carga
+        $button.text('Procesando...').prop('disabled', true);
+        
+        // Agregar al carrito y redirigir directamente al checkout
+        const $form = $('.cart, .variations_form, form.cart');
+        
+        if ($form.length > 0) {
+            
+            // Agregar parámetro para ir directo al checkout
+            const $checkoutInput = $('<input>').attr({
+                type: 'hidden',
+                name: 'add-to-cart',
+                value: $form.find('[name="add-to-cart"]').val() || $form.data('product-id')
+            });
+            
+            // Agregar parámetro para redirección directa
+            const $redirectInput = $('<input>').attr({
+                type: 'hidden',
+                name: 'redirect_to_checkout',
+                value: '1'
+            });
+            
+            // Agregar los campos al formulario
+            $form.append($checkoutInput).append($redirectInput);
+            
+            // Enviar formulario
+            $form.submit();
+        } else {
+            window.location.href = checkoutUrl;
         }
     });
-
-    plusBtn.on('click', function(e) {
+    
+    // Manejar botón "Agregar al carrito"
+    $(document).on('click', '.agregar-carrito-button', function(e) {
         e.preventDefault();
-        let cantidad = parseInt(quantityInput.val());
-        cantidad++;
-        quantityInput.val(cantidad).trigger('change');
-        syncCantidadVisual();
+        
+        $(this).text('Agregando...').prop('disabled', true);
+        
+        // Simular click en el botón nativo de WooCommerce
+        $('.single_add_to_cart_button').click();
+        
+        // Restaurar texto después de un delay
+        setTimeout(function() {
+            $(this).text('AGREGAR AL CARRITO').prop('disabled', false);
+        }.bind(this), 2000);
     });
-
-    // Si el usuario cambia el input manualmente, actualiza el número visual
-    quantityInput.on('input change', function() {
-        syncCantidadVisual();
-    });
-
-    // Función para actualizar el enlace del botón "Canjear prenda ahora"
-    function actualizarEnlaceBoton() {
-        const variationData = form.data('product_variations');
-        const variationId = form.find('input[name="variation_id"]').val();
-        if (!variationId || variationId === '0' || !variationData) {
-            canjearButton.addClass('disabled').hide();
-            return;
-        }
-        const productId = form.find('input[name="product_id"]').val();
-        const quantity = quantityInput.val();
-        const checkoutUrl = canjearButton.data('checkout-url');
-        const redirectUrl = checkoutUrl + '?add-to-cart=' + productId + '&variation_id=' + variationId + '&quantity=' + quantity;
-        canjearButton.attr('href', redirectUrl).removeClass('disabled').show();
-    }
-
-    // WooCommerce: actualiza el botón al seleccionar variación o cantidad
-    form.on('show_variation', actualizarEnlaceBoton);
-    quantityInput.on('change', actualizarEnlaceBoton);
-    form.on('hide_variation', function() {
-        canjearButton.addClass('disabled').hide();
-    });
-
-    // Botón personalizado "Agregar al carrito" envía el formulario WooCommerce
-    agregarCarritoButton.on('click', function(e) {
+    
+    // Controles de cantidad para productos simples
+    $(document).on('click', '.cantidad-menos', function(e) {
         e.preventDefault();
-        // Si hay variaciones, asegúrate de que una esté seleccionada
-        if (form.find('input[name="variation_id"]').length && form.find('input[name="variation_id"]').val() === '0') {
-            alert('Por favor, selecciona una opción antes de agregar al carrito.');
-            return;
+        const input = $('input.qty');
+        let value = parseInt(input.val()) || 1;
+        if (value > 1) {
+            input.val(value - 1).trigger('change');
+            $('.cantidad-numero').text(value - 1);
         }
-        // Envía el formulario WooCommerce
-        form.submit();
     });
-
-    // Inicializa el número visual al cargar
-    syncCantidadVisual();
+    
+    $(document).on('click', '.cantidad-mas', function(e) {
+        e.preventDefault();
+        const input = $('input.qty');
+        let value = parseInt(input.val()) || 1;
+        input.val(value + 1).trigger('change');
+        $('.cantidad-numero').text(value + 1);
+    });
+    
 });
-

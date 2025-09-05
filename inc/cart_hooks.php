@@ -6,17 +6,20 @@ add_action('wp_enqueue_scripts', function() {
         // Cuando se haga clic en el botón de agregar al carrito (productos simples)
         $('body').on('added_to_cart', function(){
             $('#add-to-cart-popup').fadeIn();
+            console.log('🛒 Producto agregado al carrito 1');
         });
 
         // Cerrar el popup
         $('#add-to-cart-popup').on('click', '#close-popup', function(){
             $('#add-to-cart-popup').fadeOut();
+            console.log('🛒 Producto agregado al carrito 2');
         });
 
         // También puedes cerrar el popup haciendo clic fuera del contenido
         $('#add-to-cart-popup').on('click', function(e){
             if(e.target === this){
                 $(this).fadeOut();
+                console.log('🛒 Producto agregado al carrito 3');
             }
         });
     });
