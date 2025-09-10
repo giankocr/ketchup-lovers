@@ -51,7 +51,7 @@ function mi_shortcode_menu_inferior_tomate() {
         </div>
         
         <!-- Opción 2: Registrar Factura ( Central ) -->
-        <a href='https://api.whatsapp.com/send/?phone=50622370505&text=subir+factura&type=phone_number&app_absent=0' 
+        <a href='https://api.whatsapp.com/send/?phone=50235106900&text=subir+factura&type=phone_number&app_absent=0' 
            class='menu-item-center' 
            id='register-invoice-menu-item'
            role="menuitem"

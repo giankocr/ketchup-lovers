@@ -29,7 +29,8 @@ include_once THEME_DIR . '/inc/titulo_productos.php';
 include_once THEME_DIR . '/inc/pto_to_buy.php';
 include_once THEME_DIR . '/inc/misc.php';
 include_once THEME_DIR . '/inc/restriccion_compra.php';
-
+include_once THEME_DIR . '/inc/change-user-phone.php';
+include_once THEME_DIR . '/inc/admin_hide_screen.php';
 // Include API files
 include_once THEME_DIR . '/API/ip-functions-fallback.php';
 include_once THEME_DIR . '/API/config.php';
