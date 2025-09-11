@@ -213,11 +213,11 @@ class KL_Wallet_API {
             'callback' => [$this, 'update_user_wallet'],
             'permission_callback' => [$this, 'check_api_permissions'],
             'args' => [
-                'user_id' => [
+                'phone_number' => [
                     'required' => true,
-                    'type' => 'integer',
-                    'sanitize_callback' => 'absint',
-                    'validate_callback' => [$this, 'validate_user_id']
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'validate_callback' => [$this, 'validate_phone_number']
                 ],
                 'amount' => [
                     'required' => true,
@@ -350,6 +350,9 @@ class KL_Wallet_API {
      * @return bool
      */
     public function validate_phone_number($phone): bool {
+        // Convertir a string para asegurar compatibilidad con strlen()
+        $phone = (string) $phone;
+        
         // Validación rápida sin regex para mejor rendimiento
         if (empty($phone) || strlen($phone) < 7 || strlen($phone) > 15) {
             return false;
@@ -531,7 +534,7 @@ class KL_Wallet_API {
             $service_name = $this->get_service_name_from_jwt();
             
             // Obtener el metadato del usuario
-            $phone_number = get_user_meta($user_id, 'billing_phone', true);
+            $phone_number = get_user_meta($user_id, 'meta_xeerpa_phone', true);
             
             // Log de auditoría
             $this->log_api_request([
@@ -546,7 +549,7 @@ class KL_Wallet_API {
             if (empty($phone_number)) {
                 return new WP_REST_Response([
                     'success' => true,
-                    'message' => 'Hola',
+                    'message' => 'Error: No se encontró el número de teléfono del usuario.',
                     'phone_number' => null,
                     'user_id' => $user_id
                 ], 200);
@@ -651,7 +654,7 @@ class KL_Wallet_API {
                 "SELECT meta_key, meta_value 
                  FROM {$wpdb->usermeta} 
                  WHERE user_id = %d 
-                 AND meta_key IN ('billing_phone', 'wps_wallet')",
+                 AND meta_key IN ('meta_xeerpa_phone', 'wps_wallet')",
                 $user_id
             ));
 
@@ -722,17 +725,25 @@ class KL_Wallet_API {
         
         try {
             // Obtener parámetros de la solicitud
-            $user_id = absint($request->get_param('user_id'));
+            global $wpdb;
             $amount = floatval($request->get_param('amount'));
             $action = sanitize_text_field($request->get_param('action'));
             $transaction_detail = sanitize_textarea_field($request->get_param('transaction_detail'));
             $payment_method = sanitize_text_field($request->get_param('payment_method'));
             $note = sanitize_textarea_field($request->get_param('note'));
             $order_id = absint($request->get_param('order_id'));
-            
+            $phone_number = sanitize_text_field($request->get_param('phone_number'));
             // Obtener credenciales de la API externa
             $consumer_key = $this->get_external_api_consumer_key();
             $consumer_secret = $this->get_external_api_consumer_secret();
+
+            $user_id = (int) $wpdb->get_var($wpdb->prepare(
+                "SELECT user_id FROM {$wpdb->usermeta} 
+                 WHERE meta_key = 'meta_xeerpa_phone' 
+                 AND meta_value = %s 
+                 LIMIT 1",
+                $phone_number
+            ));
             
             if (empty($consumer_key) || empty($consumer_secret)) {
                 return new WP_Error(
@@ -809,7 +820,7 @@ class KL_Wallet_API {
                 'success' => true,
                 'message' => 'Monedero actualizado exitosamente',
                 'data' => $response_data,
-                'user_id' => $user_id,
+                'user_id' => $phone_number,
                 'amount' => $amount,
                 'action' => $action
             ], 200);

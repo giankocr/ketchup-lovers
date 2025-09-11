@@ -45,6 +45,9 @@ include_once THEME_DIR . '/elementor/orderbypuntos.php';
 // Include Wallet IP Admin Panel
 include_once THEME_DIR . '/inc/wallet-ip-admin.php';
 
+// Include Descarga Datos Registro
+include_once THEME_DIR . '/datos/descarga_datos_registro.php';
+
 // Hook para redirección directa al checkout
 add_filter('woocommerce_add_to_cart_redirect', 'redirect_to_checkout_after_add_to_cart', 10, 2);
 
